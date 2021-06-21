@@ -8,6 +8,25 @@ namespace Tournament {
         public int Id { get; set; }
         public bool IsCompleted { get; set; } = false;
 
+            // Start Time for the Tournament
+        public DateTime? StartDate { get; set; } = null;
+
+            // All Opponents
+        public Dictionary<int, Opponent> opponents;
+
+
+        public void Generate() {
+            Opponent opp1 = new Opponent(1, "Bob");
+            Opponent opp2 = new Opponent(2, "Bill");
+
+            Match match = new Match();
+            match.SetOpponents(opp1, opp2);
+
+            Round round = new Round();
+            round.AddMatch(match);
+
+            Add(round);
+        }
 
     }
 
@@ -37,7 +56,7 @@ namespace Tournament {
         public State State { get; set; } = State.Ready;
         public Opponent opp1;
         public Opponent opp2;
-        public Opponent winner;
+        public ?Opponent winner { get; set; } = null;
 
 
         public SetOpponents(Opponent opp1, Opponent opp2) {
@@ -47,8 +66,10 @@ namespace Tournament {
 
 
         public SetWinner(Opponent winner) {
-            this.State = State.Completed;
-            this.winner = winner;
+            if (winner == opp1 || winner == opp2) {
+                this.State = State.Completed;
+                this.winner = winner;
+            }
         }
 
     }
@@ -80,8 +101,13 @@ namespace Tournament {
 
 
     public class Opponent {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int Id { get; private set; }
+        public string Name { get; private set; }
+
+        public Opponent(int id, string name) {
+            Id = id;
+            Name = name;
+        }
     }
 
 
@@ -91,11 +117,17 @@ namespace Tournament {
 
     public class Round {
 
+        public enum Stage {
+            Finals,
+            Semifinals,
+            Quarterfinals
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public bool IsCompleted { get; set; }
 
-        public Dictionary<int, Match> Matches = new Dictionary<int, Match>();
+        public Dictionary<int, IMatch> Matches = new Dictionary<int, IMatch>();
 
         public bool AddMatch(IMatch match) {
             try {
