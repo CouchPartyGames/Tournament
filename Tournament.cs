@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 
 
 namespace Tournament {
@@ -12,23 +13,87 @@ namespace Tournament {
         public DateTime? StartDate { get; set; } = null;
 
             // All Opponents
-        public Dictionary<int, Opponent> opponents;
+        public Dictionary<int, Opponent> Opponents { get; private set; }
+
+            // Rounds
+        public List<Round> Rounds { get; set; }
 
 
-        public void Generate() {
-            Opponent opp1 = new Opponent(1, "Bob");
-            Opponent opp2 = new Opponent(2, "Bill");
+        public TournamentSettings Settings { get; private set; }
 
-            Match match = new Match();
-            match.SetOpponents(opp1, opp2);
 
-            Round round = new Round();
-            round.AddMatch(match);
 
-            Add(round);
+        public Tournament(TournamentSettings settings) {
+            Settings = settings;
+
+            Rounds = new List<Round>();
+            Opponents = new Dictionary<int, Opponent>();
         }
 
+        public void SetOpponents() {
+            //Opponents = 
+        }
+
+        public void AddOpponent(Opponent opp1) {
+            try {
+                Opponents.Add(opp1.Id, opp1);
+            } catch(ArgumentException) {
+            }
+        }
+
+        public void Generate() {
+
+            if (Opponents.Count > 2) {
+
+                if (Opponents.Count == 2) {
+                    /*
+                    foreach(KeyValuePair<int, Opponent> entry in Opponents) {
+                        entry;
+                    }
+
+                    Match match = new Match(opp1, opp2);
+
+                    Round round = new Round();
+                    round.AddMatch(match);
+                        // Add the Round
+                    Rounds.Add(round);
+                    */
+
+                    var numRounds = 1;
+
+                } else if (Opponents.Count <= 4) {
+                    var numRounds = 2;
+
+                } else if (Opponents.Count <= 8) {
+                    var numRounds = 3;
+
+                } else if (Opponents.Count <= 16) {
+                    var numRounds = 4;
+
+                } else if (Opponents.Count <= 32) {
+                    var numRounds = 5;
+
+                } else if (Opponents.Count <= 64) {
+                    var numRounds = 6;
+
+                } else if (Opponents.Count <= 128) {
+                    var numRounds = 7;
+
+                }
+                    /* 
+                    // Setup Matches
+                Match match = new Match(opp1, opp2);
+                    // Setup the Round
+                Round round = new Round();
+                round.AddMatch(match);
+                    // Add the Round
+                Rounds.Add(round);
+                */
+            }
+
+        }
     }
+
 
     public class TournamentSettings {
         public enum EliminationMode {
@@ -36,55 +101,77 @@ namespace Tournament {
             Double
         }
 
+        public enum BracketMode {
+            Individual,
+            Group
+        }
+
         public bool IsSeeded { get; set; }
         public int TotalSeeds { get; set; }
 
+        public EliminationMode Elimination { get; set; }
+
+        public BracketMode Mode { get; set; } = BracketMode.Individual;
     }
 
-    public interfac IMatch {
+
+    public interface IMatch {
+        int Id { get; set; }
     }
+
 
     public class Match : IMatch {
 
-        enum State {
+        public enum MatchState {
             Ready = 0,
             InProgress,
             Completed
         }
 
         public int Id { get; set; }
-        public State State { get; set; } = State.Ready;
-        public Opponent opp1;
-        public Opponent opp2;
-        public ?Opponent winner { get; set; } = null;
+        public MatchState State { get; set; } = MatchState.Ready;
+        public Opponent Opp1 { get; private set; }
+        public Opponent Opp2 { get; private set; }
+        public Opponent Winner { get; set; } 
 
 
-        public SetOpponents(Opponent opp1, Opponent opp2) {
-            this.opp1 = opp1;
-            this.opp2 = opp2;
+        public Match(Opponent opp1, Opponent opp2) {
+            Opp1 = opp1;
+            Opp2 = opp2;
         }
 
 
-        public SetWinner(Opponent winner) {
-            if (winner == opp1 || winner == opp2) {
-                this.State = State.Completed;
-                this.winner = winner;
+        public void SetWinner(Opponent winner) {
+
+            if (Winner == null) {
+                if (winner.Id == Opp1.Id || winner.Id == Opp2.Id) {
+                    State = MatchState.Completed;
+                    Winner = winner;
+                }
             }
         }
 
+        public override string ToString() {
+            return $"{Opp1} vs {Opp2} {State}";
+        }
     }
 
-    public class GroupMatch {
 
-        public Dictionary<int,Opponent> opponents;
+    public class GroupMatch : IMatch {
+
+        public int Id { get; set; }
+
+        public Dictionary<int,Opponent> opponents = new Dictionary<int, Opponent>();
+
         public int MinOpponents { get; set; } = 2;
         public int MaxOpponents { get; set; } = 4;
         public int NumWinners { get; set; } = 1;
-        public Dictionary<int,Opponent> winners;
+
+        public Dictionary<int,Opponent> winners = new Dictionary<int, Opponent>();
 
         public bool AddOpponent(Opponent opp) {
             if (opponents.Count < MaxOpponents) {
-                opponents.Add(Opponent.Id, Opponent);
+                opponents.Add(opp.Id, opp);
                 return true;
             }
 
@@ -96,23 +183,31 @@ namespace Tournament {
 
         public void SetWinners(Dictionary<int, Opponent> opps) {
             winners = opps;
+            //this.State = State.Completed;
         }
     }
 
+    public interface IOpponent {
+        int Id { get; set; }
+        string Name { get; set; }
+    }
 
-    public class Opponent {
-        public int Id { get; private set; }
-        public string Name { get; private set; }
+    public class Opponent : IOpponent {
+
+        public int Id { get; set; }
+        public string Name { get; set; }
 
         public Opponent(int id, string name) {
             Id = id;
             Name = name;
         }
+
+        public override string ToString() {
+            return $"{Name} ({Id})";
+        }
     }
 
 
-    public class ByeOpponent : Opponent {
-    }
 
 
     public class Round {
@@ -133,7 +228,7 @@ namespace Tournament {
             try {
                 Matches.Add(match.Id, match);
             } catch(ArgumentException) {
-                Console.WwriteLine("Match already exists");
+                //Console.WwriteLine("Match already exists");
                 return false;
             }
             return true;
