@@ -1,8 +1,7 @@
 ﻿using System;
-using Tournament;
 using System.Collections.Generic;
 
-namespace Tournament
+namespace CouchParty.Tournament
 {
     class Program
     {
@@ -40,6 +39,7 @@ namespace Tournament
             }
 
 
+            /*
             Console.WriteLine("");
             OpponentOrderRandom rank2 = new OpponentOrderRandom(opps);
             Console.WriteLine("Random Order");
@@ -48,6 +48,12 @@ namespace Tournament
 
             foreach(KeyValuePair<int, Opponent> entry in rank2.OpponentsInOrder) {
                 Console.WriteLine($"{entry.Key} {entry.Value.Name} {entry.Value.Rank}");
+            }*/
+
+
+            MatchGenerator gen = new MatchGenerator(rank);
+            foreach(Match match in gen.MatchList) {
+                Console.WriteLine($"{match}");
             }
 
         }

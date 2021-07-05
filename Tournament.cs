@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 
 
-namespace Tournament {
+namespace CouchParty.Tournament {
 
     public class Tournament {
         public string Name { get; set; }
@@ -131,7 +131,7 @@ namespace Tournament {
         }
 
         public override string ToString() {
-            return $"{Opp1} vs {Opp2} {State}";
+            return $"Match Id: {Id} {Opp1} vs {Opp2} {State}";
         }
     }
 
@@ -261,7 +261,6 @@ namespace Tournament {
 
     public class OpponentOrderRandom : OpponentOrder {
 
-
         public OpponentOrderRandom(List<Opponent> opps) : base(opps) {
             Random rng = new Random();
             var randomList = opps.OrderBy(a => rng.Next()).ToList();
@@ -296,146 +295,5 @@ namespace Tournament {
             AddByeOpponents(i);
         }
     }
-
-    /***
-     * Only Seeds are Ranked in Order, Everyone outside of the seeded are randomly ordered in the draw
-     */
-
-
-    /**
-     * Base Class
-     */
-    public class OpponentOrder {
-
-        public enum DrawType {
-            Draw2 = 2,
-            Draw4 = 4,
-            Draw8 = 8,
-            Draw16 = 16,
-            Draw32 = 32,
-            Draw64 = 64,
-            Draw128 = 128
-        }
-
-        public DrawType DrawSize { get; private set; }
-
-        public Dictionary<int, Opponent> OpponentsInOrder { get; private set; }
-
-        public int NumByes { get; private set; }
-
-
-        public OpponentOrder(List<Opponent> opps) {
-            OpponentsInOrder = new Dictionary<int, Opponent>();
-
-                // Set Draw Type
-            if (opps.Count <= (int)DrawType.Draw2) {
-                DrawSize = DrawType.Draw2;
-            } else if (opps.Count <= (int)DrawType.Draw4) {
-                DrawSize = DrawType.Draw4;
-            } else if (opps.Count <= (int)DrawType.Draw8) {
-                DrawSize = DrawType.Draw8;
-            } else if (opps.Count <= (int)DrawType.Draw16) {
-                DrawSize = DrawType.Draw16;
-            } else if (opps.Count <= (int)DrawType.Draw32) {
-                DrawSize = DrawType.Draw32;
-            } else if (opps.Count <= (int)DrawType.Draw64) {
-                DrawSize = DrawType.Draw64;
-            } else {
-                DrawSize = DrawType.Draw128;
-            }
-
-            NumByes = (int)DrawSize - opps.Count;
-        }
-
-
-        protected void AddByeOpponents(int startPos) {
-
-                // Determine if Byes are needed
-            if (NumByes > 0) {
-                for(int j = 0; j < NumByes; j++) {
-                    OpponentsInOrder.Add(startPos, new Opponent(0, "Bye", true));
-                    startPos++;
-                }
-            }
-        }
-    }
-
-
-    /*
-    public class MatchGenerator {
-
-        public void Generate() {
-        }
-
-        void Draw2() {
-                // #1 vs #2
-            Match match = new Match(1, OpponentsInOrder[0], OpponentsInOrder[1]);
-        }
-
-        void Draw4() {
-                // #1 vs 4
-            Match match1 = new Match(1, OpponentsInOrder[0], OpponentsInOrder[3]);
-                // #3 vs 2
-            Match match2 = new Match(1, OpponentsInOrder[2], OpponentsInOrder[1]);
-        }
-
-        void Draw8() {
-
-                // #1 vs #8
-            Match match1 = new Match(1, OpponentsInOrder[0], OpponentsInOrder[7]);
-                // #6 vs #3
-            Match match2 = new Match(1, OpponentsInOrder[5], OpponentsInOrder[2]);
-                // #4 vs #5
-            Match match3 = new Match(1, OpponentsInOrder[3], OpponentsInOrder[4]);
-                // #7 vs #2
-            Match match4 = new Match(1, OpponentsInOrder[6], OpponentsInOrder[1]);
-
-                // Quarterfinals
-            Round quarters = new Round();
-            Add(match1);
-            Add(match2);
-            Add(match3);
-            Add(match4);
-
-                // Semifinals
-            Round semis = new Round();
-            semis.Add(match5);
-            semis.Add(match6);
-
-                // Finals
-            Round finals = new Round();
-            finals.Add(match7);
-        }
-
-        void Draw16() {
-                // #1 vs #16
-            Match match1 = new Match(1, OpponentsInOrder[0], OpponentsInOrder[15]);
-            Match match2 = new Match(1, OpponentsInOrder[5], OpponentsInOrder[2]);
-            Match match3 = new Match(1, OpponentsInOrder[3], OpponentsInOrder[4]);
-            Match match4 = new Match(1, OpponentsInOrder[6], OpponentsInOrder[1]);
-        }
-
-        void Draw32() {
-            Match match1 = new Match(1, OpponentsInOrder[0], OpponentsInOrder[7]);
-            Match match2 = new Match(1, OpponentsInOrder[5], OpponentsInOrder[2]);
-            Match match3 = new Match(1, OpponentsInOrder[3], OpponentsInOrder[4]);
-            Match match4 = new Match(1, OpponentsInOrder[6], OpponentsInOrder[1]);
-        }
-
-
-        void Draw64() {
-            Match match1 = new Match(1, OpponentsInOrder[0], OpponentsInOrder[7]);
-            Match match2 = new Match(1, OpponentsInOrder[5], OpponentsInOrder[2]);
-            Match match3 = new Match(1, OpponentsInOrder[3], OpponentsInOrder[4]);
-            Match match4 = new Match(1, OpponentsInOrder[6], OpponentsInOrder[1]);
-        }
-
-        void Draw128() {
-            Match match1 = new Match(1, OpponentsInOrder[0], OpponentsInOrder[7]);
-            Match match2 = new Match(1, OpponentsInOrder[5], OpponentsInOrder[2]);
-            Match match3 = new Match(1, OpponentsInOrder[3], OpponentsInOrder[4]);
-            Match match4 = new Match(1, OpponentsInOrder[6], OpponentsInOrder[1]);
-        }
-    }*/
 
 }
