@@ -6,9 +6,12 @@ namespace CouchParty.Tournament {
 
         public List<IMatch> MatchList { get; private set; }
 
+        //List<Opponent> opponents; 
+
 
         public MatchGenerator(OpponentOrder order) {
             MatchList = new List<IMatch>();
+            //opponents = order; 
 
             switch(order.DrawSize) {
                 case OpponentOrder.DrawType.Draw2:
@@ -26,103 +29,134 @@ namespace CouchParty.Tournament {
                 case OpponentOrder.DrawType.Draw16:
                     Draw16(order.OpponentsInOrder);
                     break;
+
+                case OpponentOrder.DrawType.Draw32:
+                    Draw32(order.OpponentsInOrder);
+                    break;
+
+                    /*
+                case OpponentOrder.DrawType.Draw64:
+                    Draw64(order.OpponentsInOrder);
+                    break;
+
+                case OpponentOrder.DrawType.Draw128:
+                    Draw128(order.OpponentsInOrder);
+                    break;
+                    */
             }
         }
 
 
         void Draw2(Dictionary<int, Opponent> opp) {
-                // #1 vs #2
-            Match match = new Match(1, Match.RoundId.Finals, opp[0], opp[1]);
-            
+            var round = Match.RoundId.Finals;
+
+            var matchTuple = new List<(int opp1, int opp2)> {
+                (1, 2)
+            };
+
+            AddMatch(opp, matchTuple, round);
         }
 
         void Draw4(Dictionary<int, Opponent> opp) {
-                // #1 vs 4
-            Match match1 = new Match(1, Match.RoundId.Semifinals, opp[0], opp[3]);
-                // #3 vs 2
-            Match match2 = new Match(2, Match.RoundId.Semifinals, opp[2], opp[1]);
+            var round = Match.RoundId.Semifinals;
+
+            var matchTuple = new List<(int opp1, int opp2)> {
+                (1, 4),
+                (3, 2)
+            };
+
+            AddMatch(opp, matchTuple, round);
         }
+
 
         void Draw8(Dictionary<int, Opponent> opp) {
+            var round = Match.RoundId.Quarterfinals;
 
-                // #1 vs #8
-            Match match1 = new Match(1, Match.RoundId.Quarterfinals, opp[0], opp[7]);
-                // #6 vs #3
-            Match match2 = new Match(2, Match.RoundId.Quarterfinals, opp[5], opp[2]);
-                // #4 vs #5
-            Match match3 = new Match(3, Match.RoundId.Quarterfinals, opp[3], opp[4]);
-                // #7 vs #2
-            Match match4 = new Match(4, Match.RoundId.Quarterfinals, opp[6], opp[1]);
+            var matchTuple = new List<(int opp1, int opp2)> {
+                (1, 8),
+                (6, 3),
+                (4, 5),
+                (7, 2),
+            };
 
-            /*
-                // Quarterfinals
-            Round quarters = new Round();
-            Add(match1);
-            Add(match2);
-            Add(match3);
-            Add(match4);
-
-                // Semifinals
-            Round semis = new Round();
-            semis.Add(match5);
-            semis.Add(match6);
-
-                // Finals
-            Round finals = new Round();
-            finals.Add(match7);
-            */
+            AddMatch(opp, matchTuple, round);
         }
 
+
         void Draw16(Dictionary<int, Opponent> opp) {
+            var round = Match.RoundId.Round16;
 
-                // #1 vs #16
-            MatchList.Add(new Match(1, Match.RoundId.Round16, opp[0], opp[15]));
+            var matchTuple = new List<(int opp1, int opp2)> {
+                (1, 16),
+                (9, 8),
+                (4, 13),
+                (5, 12),
+                (3, 14),
+                (11,6),
+                (7,10),
+                (2,15)
+            };
 
-                // #9 vs #8
-            MatchList.Add(new Match(2, Match.RoundId.Round16, opp[8], opp[7]));
-            
-                // #4 vs #13
-            MatchList.Add(new Match(3, Match.RoundId.Round16, opp[3], opp[12]));
-
-                // #5 vs 12
-            MatchList.Add(new Match(4, Match.RoundId.Round16, opp[3], opp[11]));
+            AddMatch(opp, matchTuple, round);
+        }
 
 
-                // #3 vs #14
-            MatchList.Add(new Match(5, Match.RoundId.Round16, opp[2], opp[13]));
+        // https://www.printyourbrackets.com/32seeded.html
+        void Draw32(Dictionary<int, Opponent> opp) {
+            var round = Match.RoundId.Round32;
 
-                // #11 vs #6
-            MatchList.Add(new Match(6, Match.RoundId.Round16, opp[10], opp[5]));
+                // #1 vs #32
+            MatchList.Add(new Match(1, round, opp[0], opp[31]));
 
-                // #7 vs #10
-            MatchList.Add(new Match(7, Match.RoundId.Round16, opp[6], opp[9]));
-                
-                // #2 vs #15
-            MatchList.Add(new Match(8, Match.RoundId.Round16, opp[1], opp[14]));
+                // #16 vs #17
+            MatchList.Add(new Match(1, round, opp[0], opp[31]));
+                // #9 vs #24
+                // #8 vs #25
+                // #4 vs #29
+                // #13 vs #20
+                // #12 vs #21
+
+
+                // #2 vs #31
+            MatchList.Add(new Match(8, Match.RoundId.Round32, opp[1], opp[30]));
         }
 
         /*
-        void Draw32() {
+
+        void Draw64(Dictionary<int, Opponent> opp) {
+            var round = Match.RoundId.Round64;
+            int id = 1;
+
             Match match1 = new Match(1, OpponentsInOrder[0], OpponentsInOrder[7]);
             Match match2 = new Match(1, OpponentsInOrder[5], OpponentsInOrder[2]);
             Match match3 = new Match(1, OpponentsInOrder[3], OpponentsInOrder[4]);
             Match match4 = new Match(1, OpponentsInOrder[6], OpponentsInOrder[1]);
         }
 
+        void Draw128(Dictionary<int, Opponent> opp) {
+            var round = Match.RoundId.Round128;
+            int id = 1;
 
-        void Draw64() {
-            Match match1 = new Match(1, OpponentsInOrder[0], OpponentsInOrder[7]);
-            Match match2 = new Match(1, OpponentsInOrder[5], OpponentsInOrder[2]);
-            Match match3 = new Match(1, OpponentsInOrder[3], OpponentsInOrder[4]);
-            Match match4 = new Match(1, OpponentsInOrder[6], OpponentsInOrder[1]);
-        }
-
-        void Draw128() {
             Match match1 = new Match(1, OpponentsInOrder[0], OpponentsInOrder[7]);
             Match match2 = new Match(1, OpponentsInOrder[5], OpponentsInOrder[2]);
             Match match3 = new Match(1, OpponentsInOrder[3], OpponentsInOrder[4]);
             Match match4 = new Match(1, OpponentsInOrder[6], OpponentsInOrder[1]);
         }
         */
+
+        
+        void AddMatch(Dictionary<int, Opponent> opponentList, List<(int,int)> matchList, Match.RoundId round) {
+
+            int id = 1;
+            int opp1 = 0, opp2 = 0;
+
+            foreach( var item in matchList) {
+                opp1 = item.Item1 - 1;
+                opp2 = item.Item2 - 1;
+
+                MatchList.Add(new Match(id, round, opponentList[opp1], opponentList[opp2]));
+                id++;
+            }
+        }
     }
 }
