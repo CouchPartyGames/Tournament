@@ -69,6 +69,18 @@ namespace CouchParty.Tournament {
         public BracketMode Mode { get; set; } = BracketMode.Individual;
     }
 
+    public class GroupSettings {
+        bool avoidByes;
+        public int minOpponents;
+        public int maxOpponents;
+
+        public GroupSettings() {
+            avoidByes = true;
+            minOpponents = 2;
+            maxOpponents = 4;
+        }
+    }
+
 
     public interface IMatch {
         int Id { get; set; }

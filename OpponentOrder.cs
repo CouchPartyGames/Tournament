@@ -20,6 +20,8 @@ namespace CouchParty.Tournament {
 
         public DrawType DrawSize { get; private set; }
 
+        public DrawType GroupDrawSize { get; private set; }
+
         public Dictionary<int, Opponent> OpponentsInOrder { get; private set; }
 
         public int NumByes { get; private set; }
@@ -28,25 +30,20 @@ namespace CouchParty.Tournament {
         public OpponentOrder(List<Opponent> opps) {
             OpponentsInOrder = new Dictionary<int, Opponent>();
 
-                // Set Draw Type
-            if (opps.Count <= (int)DrawType.Draw2) {
-                DrawSize = DrawType.Draw2;
-            } else if (opps.Count <= (int)DrawType.Draw4) {
-                DrawSize = DrawType.Draw4;
-            } else if (opps.Count <= (int)DrawType.Draw8) {
-                DrawSize = DrawType.Draw8;
-            } else if (opps.Count <= (int)DrawType.Draw16) {
-                DrawSize = DrawType.Draw16;
-            } else if (opps.Count <= (int)DrawType.Draw32) {
-                DrawSize = DrawType.Draw32;
-            } else if (opps.Count <= (int)DrawType.Draw64) {
-                DrawSize = DrawType.Draw64;
-            } else {
-                DrawSize = DrawType.Draw128;
-            }
+            var numOpponents = opps.Count;
 
-            NumByes = (int)DrawSize - opps.Count;
+                // Individual
+            DrawSize = DetermineDrawSize(numOpponents);
+            NumByes = (int)DrawSize - numOpponents;
+
+                
+                // Group/Bracket
+            var maxInGroup = 4;
+            var numGroups = (numOpponents % maxInGroup) + (numOpponents % maxInGroup == 0 ? 0 : 1);
+            GroupDrawSize = DetermineDrawSize(numGroups);
+            //NumByes = (int)DrawSize - opps.Count;
         }
+
 
         protected void AddByeOpponents(int startPos) {
 
@@ -57,6 +54,29 @@ namespace CouchParty.Tournament {
                     startPos++;
                 }
             }
+        }
+
+
+        DrawType DetermineDrawSize(int num) {
+
+            DrawType drawSize = 0;
+            if (num <= (int)DrawType.Draw2) {
+                drawSize = DrawType.Draw2;
+            } else if (num <= (int)DrawType.Draw4) {
+                drawSize = DrawType.Draw4;
+            } else if (num <= (int)DrawType.Draw8) {
+                drawSize = DrawType.Draw8;
+            } else if (num <= (int)DrawType.Draw16) {
+                drawSize = DrawType.Draw16;
+            } else if (num <= (int)DrawType.Draw32) {
+                drawSize = DrawType.Draw32;
+            } else if (num <= (int)DrawType.Draw64) {
+                drawSize = DrawType.Draw64;
+            } else {
+                drawSize = DrawType.Draw128;
+            }
+
+            return drawSize;
         }
     }
 }

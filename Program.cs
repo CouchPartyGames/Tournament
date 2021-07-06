@@ -16,7 +16,9 @@ namespace CouchParty.Tournament
                 new Opponent(6, "Carter", 9),
                 new Opponent(7, "Aaron", 2),
                 new Opponent(8, "Tom", 4),
-                new Opponent(9, "Carl", 5)
+                new Opponent(9, "Carl", 5),
+                new Opponent(10, "Rick", 15),
+                new Opponent(11, "Will", 25),
             };
 
             Tournament tournay = new Tournament(new TournamentSettings());
