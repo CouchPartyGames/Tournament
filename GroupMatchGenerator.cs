@@ -1,57 +1,108 @@
 using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace CouchParty.Tournament {
 
-    public class GroupMatchGenerator {
-        public List<IMatch> MatchList { get; private set; }
+    public class GroupMatchGenerator : MatchGenerator {
 
-        public GroupMatchGenerator(OpponentOrder oppOrder) {
-            MatchList = new List<IMatch>();
-            
+        public GroupMatchGenerator(IOpponentOrder oppOrder) : base(oppOrder.OpponentsInOrder) {
 
-            switch(oppOrder.GroupDrawSize) {
-                case OpponentOrder.DrawType.Draw2:
-                    Draw2(oppOrder.OpponentsInOrder);
+            var numOpponents = Opponents.Count;
+            var maxInGroup = 4;
+            var numGroups = (numOpponents / maxInGroup) + (numOpponents % maxInGroup == 0 ? 0 : 1);
+           
+            Console.WriteLine($"Groups: {numGroups} Opponents: {numOpponents}");
+            DrawSize = DetermineDrawSize(numGroups);
+            NumByes = ((int)DrawSize * maxInGroup) - numOpponents;
+
+            foreach(var opp in Opponents.Values.ToList()) {
+                Console.WriteLine($"{opp.Name} {opp.Rank}");
+            }
+
+            switch(DrawSize) {
+                case DrawType.Finals:
+                    DrawFinals(Opponents);
                     break;
 
-/*                case OpponentOrder.DrawType.Draw4:
-                    Draw4(oppOrder.OpponentsInOrder);
+                case DrawType.Semifinals:
+                    DrawSemifinals(Opponents);
                     break;
 
-                case OpponentOrder.DrawType.Draw8:
-                    Draw8(oppOrder.OpponentsInOrder);
+                case DrawType.Quarterfinals:
+                    DrawQuarterfinals(Opponents);
                     break;
 
-                case OpponentOrder.DrawType.Draw16:
-                    Draw16(oppOrder.OpponentsInOrder);
+                case DrawType.Draw16:
+                    Draw16(Opponents);
                     break;
-                    */
             }
         }
 
 
-        void Draw2(Dictionary<int, Opponent> opp) {
-            var round = Match.RoundId.Finals;
+        void DrawFinals(Dictionary<int, Opponent> opp) {
+            var round = GroupMatch.RoundId.Finals;
 
-            var matchTuple = new List<(int opp1, int opp2)> {
-                (1, 2)
-            };
+                // Create List of Match
+            var matchList = new List<List<int>>();
+            matchList.Add(new List<int>());
 
-            AddMatch(opp, matchTuple, round);
+            Console.WriteLine("Group DrawFinals");
+
+            AddMatch(opp, matchList, round);
         }
 
 
-        void AddMatch(Dictionary<int, Opponent> opponentList, List<(int,int)> matchList, Match.RoundId round) {
+        void DrawSemifinals(Dictionary<int, Opponent> opp) {
+            var round = GroupMatch.RoundId.Finals;
+
+                // Create List of Match
+            var matchList = new List<List<int>>();
+            matchList.Add(new List<int>());
+
+            Console.WriteLine("Group: Semifinals");
+
+            AddMatch(opp, matchList, round);
+        }
+
+
+        void DrawQuarterfinals(Dictionary<int, Opponent> opp) {
+            var round = GroupMatch.RoundId.Finals;
+
+                // Create List of Match
+            var matchList = new List<List<int>>();
+            matchList.Add(new List<int>());
+
+            Console.WriteLine("Group: Quarterfinals");
+
+
+            AddMatch(opp, matchList, round);
+        }
+
+
+        void Draw16(Dictionary<int, Opponent> opp) {
+            var round = GroupMatch.RoundId.Finals;
+
+                // Create List of Match
+            var matchList = new List<List<int>>();
+            matchList.Add(new List<int>());
+
+
+            AddMatch(opp, matchList, round);
+        }
+
+
+        void AddMatch(Dictionary<int, Opponent> opponentList, List<List<int>> matchList, GroupMatch.RoundId round) {
             int id = 1;
             int opp1 = 0, opp2 = 0;
 
-            foreach( var item in matchList) {
-                opp1 = item.Item1 - 1;
-                opp2 = item.Item2 - 1;
+            foreach( var match in matchList) {
 
-                MatchList.Add(new Match(id, round, opponentList[opp1], opponentList[opp2]));
+                GroupMatch groupMatch = new GroupMatch(id, round);
+                MatchList.Add(groupMatch);
                 id++;
             }
         }
+
     }
 }

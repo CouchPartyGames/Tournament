@@ -19,6 +19,9 @@ namespace CouchParty.Tournament
                 new Opponent(9, "Carl", 5),
                 new Opponent(10, "Rick", 15),
                 new Opponent(11, "Will", 25),
+                new Opponent(12, "George", 35),
+                new Opponent(13, "Don", 95),
+                new Opponent(14, "Obama", 75),
             };
 
             Tournament tournay = new Tournament(new TournamentSettings());
@@ -33,28 +36,22 @@ namespace CouchParty.Tournament
 
             Console.WriteLine("Ranked Order");
             OpponentOrderRank rank = new OpponentOrderRank(opps);
-            Console.WriteLine($"Num Byes: {rank.NumByes}");
-            Console.WriteLine($"Draw Size: {rank.DrawSize}");
+            //OpponentOrderRandom rank = new OpponentOrderRandom(opps);
+            //Console.WriteLine($"Num Byes: {rank.NumByes}");
+            //Console.WriteLine($"Draw Size: {rank.DrawSize}");
 
             foreach(KeyValuePair<int, Opponent> entry in rank.OpponentsInOrder) {
                 Console.WriteLine($"{entry.Key} {entry.Value.Name} {entry.Value.Rank}");
             }
 
 
-            /*
-            Console.WriteLine("");
-            OpponentOrderRandom rank2 = new OpponentOrderRandom(opps);
-            Console.WriteLine("Random Order");
-            Console.WriteLine($"Num Byes: {rank2.NumByes}");
-            Console.WriteLine($"Draw Size: {rank.DrawSize}");
+            MatchGenerator gen = new IndividualMatchGenerator(rank);
+            foreach(IndividualMatch match in gen.MatchList) {
+                Console.WriteLine($"{match}");
+            }
 
-            foreach(KeyValuePair<int, Opponent> entry in rank2.OpponentsInOrder) {
-                Console.WriteLine($"{entry.Key} {entry.Value.Name} {entry.Value.Rank}");
-            }*/
-
-
-            MatchGenerator gen = new MatchGenerator(rank);
-            foreach(Match match in gen.MatchList) {
+            GroupMatchGenerator gen2 = new GroupMatchGenerator(rank);
+            foreach(GroupMatch match in gen2.MatchList) {
                 Console.WriteLine($"{match}");
             }
 

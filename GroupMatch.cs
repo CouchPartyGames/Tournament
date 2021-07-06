@@ -1,0 +1,69 @@
+using System.Collections.Generic;
+using System;
+using System.Linq;
+
+
+namespace CouchParty.Tournament {
+
+    public class GroupMatch : IMatch {
+
+        public enum MatchState {
+            Ready = 0,
+            InProgress,
+            Completed
+        }
+
+        public enum RoundId {
+            Round128,
+            Round64,
+            Round32,
+            Round16,
+            Quarterfinals,
+            Semifinals,
+            Finals
+        }
+
+        public int Id { get; set; }
+
+        public Dictionary<int,Opponent> opponents = new Dictionary<int, Opponent>();
+
+        public MatchState State { get; set; } = MatchState.Ready;
+        public int MinOpponents { get; set; } = 2;
+        public int MaxOpponents { get; set; } = 4;
+        public int NumWinners { get; set; } = 1;
+        public RoundId Round { get; private set; }
+
+        public Dictionary<int,Opponent> winners = new Dictionary<int, Opponent>();
+
+        public GroupMatch(int id, RoundId round) {
+            Id = id;
+            Round = round;
+        }
+
+
+        public bool AddOpponent(Opponent opp) {
+            if (opponents.Count < MaxOpponents) {
+                opponents.Add(opp.Id, opp);
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public void SetWinners(Dictionary<int, Opponent> opps) {
+            winners = opps;
+            this.State = MatchState.Completed;
+        }
+
+
+        public override string ToString() {
+            string str = $"Match Id: {Id} Opponents:";
+            foreach(var opps in opponents.Values.ToList()) {
+                str += $" {opps.Id} ";
+            }
+            return str;
+        }
+    }
+
+}
