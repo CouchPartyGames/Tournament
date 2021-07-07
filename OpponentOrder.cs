@@ -30,9 +30,6 @@ namespace CouchParty.Tournament {
                 OpponentsInOrder.Add(i, opp);
                 i++;
             }
-
-                // Determine if Byes are needed
-            //AddByeOpponents(i);
         }
 
     }
@@ -54,13 +51,12 @@ namespace CouchParty.Tournament {
 
             var OpponentsRanked = opps.OrderBy(o => o.Rank);
             //var OpponentsRanked = opps.OrderByDescending(o => o.Rank);
+
             int i = 0;
             foreach(Opponent opp in OpponentsRanked) {
                 OpponentsInOrder.Add(i, opp);
                 i++;
             }
-
-            //AddByeOpponents(i);
         }
     }
 }

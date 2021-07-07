@@ -40,15 +40,16 @@ namespace CouchParty.Tournament
             //Console.WriteLine($"Num Byes: {rank.NumByes}");
             //Console.WriteLine($"Draw Size: {rank.DrawSize}");
 
-            foreach(KeyValuePair<int, Opponent> entry in rank.OpponentsInOrder) {
-                Console.WriteLine($"{entry.Key} {entry.Value.Name} {entry.Value.Rank}");
+            foreach(KeyValuePair<int, Opponent> opponent in rank.OpponentsInOrder) {
+                Console.WriteLine($"{opponent.Key} {opponent.Value.Name} {opponent.Value.Rank}");
             }
 
 
+            /*
             MatchGenerator gen = new IndividualMatchGenerator(rank);
             foreach(IndividualMatch match in gen.MatchList) {
                 Console.WriteLine($"{match}");
-            }
+            }*/
 
             GroupMatchGenerator gen2 = new GroupMatchGenerator(rank);
             foreach(GroupMatch match in gen2.MatchList) {

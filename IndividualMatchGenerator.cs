@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CouchParty.Tournament {
 
@@ -7,86 +8,88 @@ namespace CouchParty.Tournament {
 
         public IndividualMatchGenerator(IOpponentOrder order) : base(order.OpponentsInOrder) {
 
-            var numOpponents = Opponents.Count;
+            var numOpponents = OpponentList.Count;
             DrawSize = DetermineDrawSize(numOpponents);
             NumByes = (int)DrawSize - numOpponents;
 
                 // Add Byes
-            AddByeOpponents(numOpponents);
+            AddByeOpponents();
 
+
+                // Setup Matches Per Round
             switch(DrawSize) {
                 case DrawType.Finals:
-                    DrawFinals(Opponents);
+                    DrawFinals();
                     break;
 
                 case DrawType.Semifinals:
-                    DrawSemifinals(Opponents);
+                    DrawSemifinals();
                     break;
 
                 case DrawType.Quarterfinals:
-                    DrawQuarterfinals(Opponents);
+                    DrawQuarterfinals();
                     break;
 
                 case DrawType.Draw16:
-                    Draw16(Opponents);
+                    Draw16();
                     break;
 
                 case DrawType.Draw32:
-                    Draw32(Opponents);
+                    Draw32();
                     break;
 
                 case DrawType.Draw64:
-                    Draw64(Opponents);
+                    Draw64();
                     break;
 
                 case DrawType.Draw128:
-                    Draw128(Opponents);
+                    Draw128();
                     break;
             }
         }
 
 
-        void DrawFinals(Dictionary<int, Opponent> opp) {
+        void DrawFinals() {
             var round = IndividualMatch.RoundId.Finals;
 
-            var matchTuple = new List<(int opp1, int opp2)> {
+            var matchList = new List<(int seedPos1, int seedPos2)> {
                 (1, 2)
             };
 
-            AddMatch(opp, matchTuple, round);
+            AddMatch(matchList, round);
         }
 
 
-        void DrawSemifinals(Dictionary<int, Opponent> opp) {
+        void DrawSemifinals() {
             var round = IndividualMatch.RoundId.Semifinals;
 
-            var matchTuple = new List<(int opp1, int opp2)> {
+            var matchList = new List<(int seedPos1, int seedPos2)> {
                 (1, 4),
                 (3, 2)
             };
 
-            AddMatch(opp, matchTuple, round);
+            AddMatch(matchList, round);
         }
 
 
-        void DrawQuarterfinals(Dictionary<int, Opponent> opp) {
+        void DrawQuarterfinals() {
             var round = IndividualMatch.RoundId.Quarterfinals;
 
-            var matchTuple = new List<(int opp1, int opp2)> {
+            var matchList = new List<(int seedPos1, int seedPos2)> {
                 (1, 8),
                 (6, 3),
                 (4, 5),
                 (7, 2),
             };
 
-            AddMatch(opp, matchTuple, round);
+            AddMatch(matchList, round);
         }
 
 
-        void Draw16(Dictionary<int, Opponent> opp) {
+        void Draw16() {
             var round = IndividualMatch.RoundId.Round16;
 
-            var matchTuple = new List<(int opp1, int opp2)> {
+            var matchList = new List<(int seedPos1, int seedPos2)> {
                 (1, 16),
                 (9, 8),
                 (4, 13),
@@ -97,15 +100,15 @@ namespace CouchParty.Tournament {
                 (2,15)
             };
 
-            AddMatch(opp, matchTuple, round);
+            AddMatch(matchList, round);
         }
 
 
         // https://www.printyourbrackets.com/32seeded.html
-        void Draw32(Dictionary<int, Opponent> opp) {
+        void Draw32() {
             var round = IndividualMatch.RoundId.Round32;
 
-            var matchTuple = new List<(int opp1, int opp2)> {
+            var matchList = new List<(int seedPos1, int seedPos2)> {
                 // 1st Half
                 (1, 32),
                 (16, 17),
@@ -128,15 +131,19 @@ namespace CouchParty.Tournament {
                 (6,27)
             };
 
-            AddMatch(opp, matchTuple, round);
+            AddMatch(matchList, round);
         }
 
 
+        // <summary>
+        // Place seeded opponents in the proper match in the draw for 64 draw
+        //
         // https://www.printyourbrackets.com/64seeded.html
-        void Draw64(Dictionary<int, Opponent> opp) {
+        // </summary>
+        void Draw64() {
             var round = IndividualMatch.RoundId.Round64;
 
-            var matchTuple = new List<(int opp1, int opp2)> {
+            var matchList = new List<(int seedPos1, int seedPos2)> {
                 // 1st Bracket
                 (1,64),
                 (32,33),
@@ -175,14 +182,18 @@ namespace CouchParty.Tournament {
                 (6,59)
             };
 
-            AddMatch(opp, matchTuple, round);
+            AddMatch(matchList, round);
         }
 
+        // <summary>
+        // Place seeded opponents in the proper match in the draw for 128 draw
+        //
         // https://www.printyourbrackets.com/pdfbrackets/128teamseeded.pdf
-        void Draw128(Dictionary<int, Opponent> opp) {
+        // </summary>
+        void Draw128() {
             var round = IndividualMatch.RoundId.Round128;
 
-            var matchTuple = new List<(int opp1, int opp2)> {
+            var matchList = new List<(int seedPos1, int seedPos2)> {
                 // 1st Bracket
                 (1,128),
                 (64,65),
@@ -254,20 +265,24 @@ namespace CouchParty.Tournament {
 
             };
 
-            AddMatch(opp, matchTuple, round);
+            AddMatch(matchList, round);
         }
 
+
         
-        void AddMatch(Dictionary<int, Opponent> opponentList, List<(int,int)> matchList, IndividualMatch.RoundId round) {
-
+        void AddMatch(List<(int,int)> matchList, IndividualMatch.RoundId round) {
             int id = 1;
-            int opp1 = 0, opp2 = 0;
 
-            foreach( var item in matchList) {
-                opp1 = item.Item1 - 1;
-                opp2 = item.Item2 - 1;
+            foreach( var matchOpponents in matchList) {
+                Opponent opponent1 = OpponentList[matchOpponents.Item1 - 1];
+                Opponent opponent2 = OpponentList[matchOpponents.Item2 - 1];
 
-                MatchList.Add(new IndividualMatch(id, round, opponentList[opp1], opponentList[opp2]));
+                /*
+                Opponent opponent1 = OpponentList.FirstOrDefault(x => x.Id == matchOpponents.Item1 - 1);
+                Opponent opponent2 = OpponentList.FirstOrDefault(x => x.Id == matchOpponents.Item2 - 1);
+                */
+
+                MatchList.Add(new IndividualMatch(id, round, opponent1, opponent2));
                 id++;
             }
         }

@@ -43,7 +43,8 @@ namespace CouchParty.Tournament {
 
         public bool AddOpponent(Opponent opp) {
             if (opponents.Count < MaxOpponents) {
-                opponents.Add(opp.Id, opp);
+
+                opponents.TryAdd(opp.Id, opp);
                 return true;
             }
 
@@ -58,11 +59,12 @@ namespace CouchParty.Tournament {
 
 
         public override string ToString() {
-            string str = $"Match Id: {Id} Opponents:";
-            foreach(var opps in opponents.Values.ToList()) {
-                str += $" {opps.Id} ";
+            var sb = new System.Text.StringBuilder();
+            sb.Append( $"Group Match Id: {Id} Opponents:");
+            foreach(KeyValuePair<int, Opponent> opponent in opponents) {
+                sb.Append( $" {opponent.Value.Name}{opponent.Value.Id} ");
             }
-            return str;
+            return sb.ToString();
         }
     }
 
