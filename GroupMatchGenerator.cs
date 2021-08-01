@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System;
-using System.Linq;
-
 namespace CouchParty.Tournament {
 
     public class GroupMatchGenerator : MatchGenerator {
@@ -16,8 +12,12 @@ namespace CouchParty.Tournament {
             Draw128 = 64
         }
 
+        public int OpponentsPerGroup { get; private set; }
+
 
         public GroupMatchGenerator(IOpponentOrder oppOrder) : base(oppOrder.OpponentsInOrder) {
+
+            OpponentsPerGroup = 4;
          
 
             var numOpponents = OpponentList.Count;
@@ -125,10 +125,26 @@ namespace CouchParty.Tournament {
 
 
         void Draw16() {
-            var round = GroupMatch.RoundId.Finals;
+            var round = GroupMatch.RoundId.Round16;
+            var numOpponents = OpponentList.Count;
 
-                // Create List of Match
-            var matchList = new Dictionary<int, List<int>>();
+                // Get Seeded Positions for each Opponent
+            var seedsList = FlattenSeeds(GetOpponentSeeding(numOpponents));
+            /*foreach(var seed in seedsList) {
+                Console.WriteLine($"seed: {seed}");
+            }*/
+
+                // Split the seeds into 2 Groups
+            List<List<int>> matchList = GroupSeedsIntoListOfMatches(seedsList);
+            
+            /*
+            foreach(List<int> outer in matchList) {
+
+                Console.WriteLine("outer");
+                foreach(int inner in outer) {
+                    Console.WriteLine($"inner: {inner}");
+                }
+            }*/
 
 
             AddMatch(matchList, round);
@@ -163,6 +179,9 @@ namespace CouchParty.Tournament {
         }
 
 
+        // <summary>
+        // 
+        // </summary>
         protected GroupDrawType DetermineDrawSize(int num) {
             GroupDrawType drawSize = 0;
             if (num <= (int)GroupDrawType.Finals) {
@@ -199,10 +218,10 @@ namespace CouchParty.Tournament {
         // <summary>
         // Convert entire list of seeds into multiple groups
         // </summary>
-        List<List<int>> GroupSeedsIntoListOfMatches(List<int> seedsList, int groupBy = 4) {
+        List<List<int>> GroupSeedsIntoListOfMatches(List<int> seedsList) {
             return seedsList
                 .Select((x, i) => new { Index = i, Value = x })
-                .GroupBy(x => x.Index / groupBy)
+                .GroupBy(x => x.Index / OpponentsPerGroup)
                 .Select(x => x.Select(v => v.Value).ToList())
                 .ToList();
         }

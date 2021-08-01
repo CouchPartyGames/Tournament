@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using CouchParty.Tournament;
 
 namespace CouchParty.Tournament.Client {
 
