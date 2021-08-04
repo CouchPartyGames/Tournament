@@ -54,7 +54,7 @@ namespace CouchParty.Tournament {
         // Finals
         // </summary>
         void DrawFinals() {
-            var round = GroupMatch.RoundId.Finals;
+            var round = RoundId.Finals;
 
                 // Create List of Match
             var matchList = new Dictionary<int, List<int>> {
@@ -71,7 +71,7 @@ namespace CouchParty.Tournament {
         // Semifinals
         // </summary>
         void DrawSemifinals() {
-            var round = GroupMatch.RoundId.Semifinals;
+            var round = RoundId.Semifinals;
             var numOpponents = OpponentList.Count;
 
                 // Get Seeded Positions for each Opponent
@@ -98,7 +98,7 @@ namespace CouchParty.Tournament {
 
 
         void DrawQuarterfinals() {
-            var round = GroupMatch.RoundId.Quarterfinals;
+            var round = RoundId.Quarterfinals;
             var numOpponents = OpponentList.Count;
 
                 // Get Seeded Positions for each Opponent
@@ -125,7 +125,7 @@ namespace CouchParty.Tournament {
 
 
         void Draw16() {
-            var round = GroupMatch.RoundId.Round16;
+            var round = RoundId.Round16;
             var numOpponents = OpponentList.Count;
 
                 // Get Seeded Positions for each Opponent
@@ -151,7 +151,7 @@ namespace CouchParty.Tournament {
         }
 
 
-        void AddMatch(List<List<int>> matchList, GroupMatch.RoundId round) {
+        void AddMatch(List<List<int>> matchList, RoundId round) {
             int id = 1;
             foreach(List<int> match in matchList) {
                 GroupMatch groupMatch = new GroupMatch(id, round);
@@ -163,7 +163,7 @@ namespace CouchParty.Tournament {
             }
         }
 
-        void AddMatch(Dictionary<int, List<int>> matchList, GroupMatch.RoundId round) {
+        void AddMatch(Dictionary<int, List<int>> matchList, RoundId round) {
             int id = 1;
             
             foreach(KeyValuePair<int, List<int>> match in matchList) {

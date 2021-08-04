@@ -1,12 +1,11 @@
-﻿//using System;
-//using System.Collections.Generic;
+﻿using CouchParty.Tournament.Preset;
 
-namespace CouchParty.Tournament
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
+namespace CouchParty.Tournament {
+
+    class Program {
+
+        static void Main(string[] args) {
+
             List<Opponent> opps = new List<Opponent>() {
                 new Opponent(1, "Bill"),
                 new Opponent(2, "Bob"),
@@ -24,44 +23,18 @@ namespace CouchParty.Tournament
                 new Opponent(14, "Obama", 75),
             };
 
-            Tournament tournay = new Tournament(new TournamentSettings());
+            TournamentSettings settings = new TournamentSettings();
+            Tournament tournay = new SingleElimination(settings);
+            tournay.Name = "CouchParty Tournament";
 
             foreach(Opponent opp in opps) {
                 tournay.AddOpponent(opp);
             }
 
-            //tournay.SetOpponents();
             tournay.Generate();
-
-
-            Console.WriteLine("Ranked Order");
-            OpponentOrderRank rank = new OpponentOrderRank(opps);
-            //OpponentOrderRandom rank = new OpponentOrderRandom(opps);
-            //Console.WriteLine($"Num Byes: {rank.NumByes}");
-            //Console.WriteLine($"Draw Size: {rank.DrawSize}");
-
-            foreach(KeyValuePair<int, Opponent> opponent in rank.OpponentsInOrder) {
-                Console.WriteLine($"{opponent.Key} {opponent.Value.Name} {opponent.Value.Rank}");
-            }
-
-
-            /*
-            MatchGenerator gen = new IndividualMatchGenerator(rank);
-            foreach(IndividualMatch match in gen.MatchList) {
-                Console.WriteLine($"{match}");
-            }*/
-
-            GroupMatchGenerator gen2 = new GroupMatchGenerator(rank);
-            foreach(GroupMatch match in gen2.MatchList) {
-                Console.WriteLine($"{match}");
-            }
+            Console.WriteLine(tournay);
 
         }
     }
 }
 
-
-/*
-app.MapGet("/tournament");
-app.Run();
-*/

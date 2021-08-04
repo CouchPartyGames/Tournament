@@ -9,16 +9,6 @@ namespace CouchParty.Tournament {
             Completed
         }
 
-        public enum RoundId {
-            Round128,
-            Round64,
-            Round32,
-            Round16,
-            Quarterfinals,
-            Semifinals,
-            Finals
-        }
-
         public int Id { get; set; }
 
         public Dictionary<int,Opponent> opponents = new Dictionary<int, Opponent>();

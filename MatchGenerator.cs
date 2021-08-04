@@ -31,6 +31,8 @@ namespace CouchParty.Tournament {
         }
 
 
+        // <summary>
+        // </summary>
         protected void AddByeOpponents() {
             var id = OpponentList.Count;
 
@@ -43,6 +45,8 @@ namespace CouchParty.Tournament {
             }
         }
 
+        // <summary>
+        // </summary>
         protected DrawType DetermineDrawSize(int num) {
             DrawType drawSize = 0;
             if (num <= (int)DrawType.Finals) {

@@ -3,14 +3,17 @@ namespace CouchParty.Tournament {
 
     public interface IOpponent {
         int Id { get; set; }
+
         string Name { get; set; }
+
         int Rank { get; set; }
     }
 
 
     public class Opponent : IOpponent {
 
-        public const int ByeRank = 999999;
+        public const int ByeRank = Int32.MaxValue;
+
         public const int NotRank = 888888;
 
         public int Id { get; set; }

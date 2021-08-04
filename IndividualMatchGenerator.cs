@@ -21,34 +21,34 @@ namespace CouchParty.Tournament {
                     break;
 
                 case DrawType.Semifinals:
-                    DrawSemifinals();
+                    DrawOther(RoundId.Semifinals);
                     break;
 
                 case DrawType.Quarterfinals:
-                    DrawQuarterfinals();
+                    DrawOther(RoundId.Quarterfinals);
                     break;
 
                 case DrawType.Draw16:
-                    Draw16();
+                    DrawOther(RoundId.Round16);
                     break;
 
                 case DrawType.Draw32:
-                    Draw32();
+                    DrawOther(RoundId.Round32);
                     break;
 
                 case DrawType.Draw64:
-                    Draw64();
+                    DrawOther(RoundId.Round64);
                     break;
 
                 case DrawType.Draw128:
-                    Draw128();
+                    DrawOther(RoundId.Round128);
                     break;
             }
         }
 
 
         void DrawFinals() {
-            var round = IndividualMatch.RoundId.Finals;
+            var round = RoundId.Finals;
 
             var matchList = new List<(int seedPos1, int seedPos2)> {
                 (1, 2)
@@ -58,64 +58,14 @@ namespace CouchParty.Tournament {
         }
 
 
-        void DrawSemifinals() {
-            var round = IndividualMatch.RoundId.Semifinals;
-
-            var matchList = GetOpponentSeeding(OpponentList.Count);
-
-            AddMatch(matchList, round);
-        }
-
-
-        void DrawQuarterfinals() {
-            var round = IndividualMatch.RoundId.Quarterfinals;
-
-            var matchList = GetOpponentSeeding(OpponentList.Count);
-
-            AddMatch(matchList, round);
-        }
-
-
-        void Draw16() {
-            var round = IndividualMatch.RoundId.Round16;
-
-            var matchList = GetOpponentSeeding(OpponentList.Count);
-
-            AddMatch(matchList, round);
-        }
-
-
-        // https://www.printyourbrackets.com/32seeded.html
-        void Draw32() {
-            var round = IndividualMatch.RoundId.Round32;
-
-            var matchList = GetOpponentSeeding(OpponentList.Count);
-
-            AddMatch(matchList, round);
-        }
-
-
         // <summary>
         // Place seeded opponents in the proper match in the draw for 64 draw
         //
+        // https://www.printyourbrackets.com/32seeded.html
         // https://www.printyourbrackets.com/64seeded.html
-        // </summary>
-        void Draw64() {
-            var round = IndividualMatch.RoundId.Round64;
-
-            var matchList = GetOpponentSeeding(OpponentList.Count);
-
-            AddMatch(matchList, round);
-        }
-
-        // <summary>
-        // Place seeded opponents in the proper match in the draw for 128 draw
-        //
         // https://www.printyourbrackets.com/pdfbrackets/128teamseeded.pdf
         // </summary>
-        void Draw128() {
-            var round = IndividualMatch.RoundId.Round128;
-
+        void DrawOther(RoundId round) {
             var matchList = GetOpponentSeeding(OpponentList.Count);
 
             AddMatch(matchList, round);
@@ -123,7 +73,7 @@ namespace CouchParty.Tournament {
 
 
         
-        void AddMatch(List<(int,int)> matchList, IndividualMatch.RoundId round) {
+        void AddMatch(List<(int,int)> matchList, RoundId round) {
             int id = 1;
 
             foreach( var matchOpponents in matchList) {
