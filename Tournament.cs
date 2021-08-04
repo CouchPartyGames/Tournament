@@ -2,6 +2,16 @@
 
 namespace CouchParty.Tournament {
 
+    public enum TournamentOrder {
+        Random,
+        Ranking
+    }
+
+    public enum DrawOrderType {
+        BlindDraw,
+        SeededDraw
+    }
+
     public class Tournament {
 
         public string Name { get; set; }
@@ -20,6 +30,9 @@ namespace CouchParty.Tournament {
         public List<Round> Rounds { get; set; }
 
         public TournamentSettings Settings { get; private set; }
+
+
+        public TournamentOrder Order { get; set; }
 
 
 
@@ -94,11 +107,5 @@ namespace CouchParty.Tournament {
             numToAdvance = 2;
         }
     }
-
-
-    public interface IMatch {
-        int Id { get; set; }
-    }
-
 
 }

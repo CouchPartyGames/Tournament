@@ -4,13 +4,6 @@ namespace CouchParty.Tournament {
 
     public class IndividualMatch : IMatch {
 
-        public enum MatchState {
-            Ready = 0,
-            InProgress,
-            Completed
-        }
-
-
         public int Id { get; set; }
 
         public MatchState State { get; set; } = MatchState.Ready;
@@ -22,6 +15,12 @@ namespace CouchParty.Tournament {
         public Opponent Winner { get; set; } 
 
         public RoundId Round { get; private set; }
+
+
+
+        public Progression WinProgression { get; set; }
+
+        public Progression LoseProgression { get; set; }
 
 
         public IndividualMatch(int id, RoundId round) {
@@ -52,11 +51,22 @@ namespace CouchParty.Tournament {
         // </summary>
         public void SetWinner(Opponent winner) {
             if (Winner == null) {
+
                 if (winner.Id == Opp1.Id || winner.Id == Opp2.Id) {
                     State = MatchState.Completed;
                     Winner = winner;
                 }
+
+                /*
+                    // Set Next Match For Winner
+                IMatch winnerNextMatch = WinProgression.NextMatch;
+                nextMatch.SetOpponent(winner, 0);
+
+
+                nextMatch.SetOpponent(winner, 0);
+                */
             }
+
         }
 
 
@@ -64,6 +74,6 @@ namespace CouchParty.Tournament {
         public override string ToString() {
             return $"Match Id: {Id} {Opp1} vs {Opp2} {State.ToString()}";
         }
-    }
 
+    }
 }

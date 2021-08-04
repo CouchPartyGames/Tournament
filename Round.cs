@@ -14,7 +14,6 @@ namespace CouchParty.Tournament {
 
     public class Round {
 
-
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -22,6 +21,8 @@ namespace CouchParty.Tournament {
         public bool IsCompleted { get; set; }
 
         public Dictionary<int, IMatch> Matches = new Dictionary<int, IMatch>();
+
+        public RoundId RoundId { get; init; }
 
 
         public bool AddMatch(IMatch match) {
@@ -34,9 +35,10 @@ namespace CouchParty.Tournament {
             return true;
         }
 
+
         /*
         public static string RoundToString(RoundId rId) => rId switch {
-            Direction.Round128    => "Round of 128",
+            RoundId.Round128    => "Round of 128",
             Direction.Right => Orientation.East,
             Direction.Down  => Orientation.South,
             Direction.Left  => Orientation.West,

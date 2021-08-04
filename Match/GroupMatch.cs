@@ -3,23 +3,22 @@ namespace CouchParty.Tournament {
 
     public class GroupMatch : IMatch {
 
-        public enum MatchState {
-            Ready = 0,
-            InProgress,
-            Completed
-        }
-
         public int Id { get; set; }
 
         public Dictionary<int,Opponent> opponents = new Dictionary<int, Opponent>();
 
         public MatchState State { get; set; } = MatchState.Ready;
+
         public int MinOpponents { get; set; } = 2;
+
         public int MaxOpponents { get; set; } = 4;
+
         public int NumWinners { get; set; } = 1;
+
         public RoundId Round { get; private set; }
 
         public Dictionary<int,Opponent> winners = new Dictionary<int, Opponent>();
+
 
         public GroupMatch(int id, RoundId round) {
             Id = id;

@@ -26,6 +26,7 @@ namespace CouchParty.Tournament {
             TournamentSettings settings = new TournamentSettings();
             Tournament tournay = new SingleElimination(settings);
             tournay.Name = "CouchParty Tournament";
+            tournay.Order = TournamentOrder.Random;
 
             foreach(Opponent opp in opps) {
                 tournay.AddOpponent(opp);

@@ -6,6 +6,10 @@ namespace CouchParty.Tournament {
     }
 
 
+
+    // <summary>
+    // Order opponents randomly in the Tournament draw
+    // </summary>
     public class OpponentOrderRandom : IOpponentOrder {
 
         // <summary>
@@ -32,9 +36,14 @@ namespace CouchParty.Tournament {
 
 
     // <summary
-    // Order Opponents in terms of Rank
+    // Order Opponents in terms of rank in the Tournament draw
     // </summary>
     public class OpponentOrderRank : IOpponentOrder {
+
+        public enum SortOrder {
+            HighToLow,
+            LowToHigh
+        }
 
         // <summary>
         // Dictionary of ordered opponents
@@ -42,11 +51,15 @@ namespace CouchParty.Tournament {
         public Dictionary<int, Opponent> OpponentsInOrder { get; set; }
 
 
-        public OpponentOrderRank(List<Opponent> opps) {
+        // <summary>
+        // Constructor
+        // </summary>
+        public OpponentOrderRank(List<Opponent> opps, SortOrder order = SortOrder.HighToLow) {
             OpponentsInOrder = new Dictionary<int, Opponent>();
 
-            var OpponentsRanked = opps.OrderBy(o => o.Rank);
-            //var OpponentsRanked = opps.OrderByDescending(o => o.Rank);
+            var OpponentsRanked = order == SortOrder.HighToLow ?  
+                opps.OrderBy(o => o.Rank) :
+                    opps.OrderByDescending(o => o.Rank);
 
             int i = 0;
             foreach(Opponent opp in OpponentsRanked) {

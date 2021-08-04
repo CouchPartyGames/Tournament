@@ -6,48 +6,56 @@ namespace CouchParty.Tournament.Preset {
         public SingleElimination(TournamentSettings settings) : base(settings) {
         }
 
+
         public override void Generate() {
             var order = 1;
+            int numMatchesInRound = 0; 
+            int numRounds = 0;
+            int id = 100;
             
-                // Order Opponents in the draw
-            //var rank = order == 1 ? new OpponentOrderRank(Opponents) : new OpponentOrderRandom(Opponents);
-            IOpponentOrder rank = 1 == 1 ? new OpponentOrderRank(Opponents) : new OpponentOrderRandom(Opponents);
+                // order all opponents in the draw (doesn't include byes)
+            IOpponentOrder orderedOpponents = 1 == 1 ? new OpponentOrderRank(Opponents) : new OpponentOrderRandom(Opponents);
 
 
-                // Generate Matches for First Round
-            MatchGenerator gen = 1 == 1 ? new IndividualMatchGenerator(rank) : new GroupMatchGenerator(rank);
+                // Generate Matches for First Round (adds byes)
+            MatchGenerator gen = 1 == 1 ? new IndividualMatchGenerator(orderedOpponents) : new GroupMatchGenerator(orderedOpponents);
 
             foreach(var match in gen.MatchList) {
                 Console.WriteLine($"{match}");
             }
-
             
-            int numRounds = (int)Math.Log2((double)gen.DrawSize) ;
-            Console.WriteLine($"Num Rounds: {numRounds}");
+                // Get the Total Num of Rounds in this tournament
+            numRounds = (int)Math.Log2((double) gen.DrawSize) ;
 
 
-            for(int round = numRounds - 1; round >= 1; round--) {
-                Console.WriteLine(round);
+            List<IndividualMatch> someMatches = new List<IndividualMatch>();
+            IMatch nextMatch = new IndividualMatch(id, 0);
+
+            /*
+            for(int round = 2; round <= numRounds; round++) {
                 //Round round = new Round();
 
-/*                    
-                for(int match = 1; match <= ; match++) {
+                    // Find the number of matches in this round
+                numMatchesInRound = (int)gen.DrawSize / (int)Math.Pow(2, round);
+                
+                Console.WriteLine($"round: {round} matches; {numMatchesInRound}");
+                for(int matchId = 1; matchId <= numMatchesInRound; matchId++) {
 
-                        // New Match
-                    IndividualMatch match = new IndividualMatch();
+                        // create a match for this round
+                    nextMatch = new IndividualMatch(id, (RoundId)round);
 
-                        // Get Previous Matches 
-                    IndividualMatch prevMatch1 = ;
-                    IndividualMatch prevMatch2 = ; 
+                    //IndividualMatch prevMatch1 = ;
+                    //IndividualMatch prevMatch2 = ; 
+                    
+                        // set the progression
+                    prevMatch1.SetProgression( new Progression() { NextMatch = nextMatch } );
+                    prevMatch2.SetProgression( new Progression() { NextMatch = nextMatch } );
 
-                        // Previous Round's Match to progress to this match
-                    prevMatch1.SetProgression(match);
-                    prevMatch2.SetProgression(match);
 
+                    id++;
                 }
-*/
 
-            }
+            }*/
         }
     }
 }
