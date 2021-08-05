@@ -36,15 +36,15 @@ namespace CouchParty.Tournament {
                     break;
 
                 case GroupDrawType.Semifinals:
-                    DrawSemifinals();
+                    DrawOther(RoundId.Semifinals);
                     break;
 
                 case GroupDrawType.Quarterfinals:
-                    DrawQuarterfinals();
+                    DrawOther(RoundId.Quarterfinals);
                     break;
 
                 case GroupDrawType.Draw16:
-                    Draw16();
+                    DrawOther(RoundId.Round16);
                     break;
             }
         }
@@ -68,37 +68,9 @@ namespace CouchParty.Tournament {
 
 
         // <summary>
-        // Semifinals
+        // Draw
         // </summary>
-        void DrawSemifinals() {
-            var round = RoundId.Semifinals;
-            var numOpponents = OpponentList.Count;
-
-                // Get Seeded Positions for each Opponent
-            var seedsList = FlattenSeeds(GetOpponentSeeding(numOpponents));
-            /*foreach(var seed in seedsList) {
-                Console.WriteLine($"seed: {seed}");
-            }*/
-
-                // Split the seeds into 2 Groups
-            List<List<int>> matchList = GroupSeedsIntoListOfMatches(seedsList);
-            
-            /*
-            foreach(List<int> outer in matchList) {
-
-                Console.WriteLine("outer");
-                foreach(int inner in outer) {
-                    Console.WriteLine($"inner: {inner}");
-                }
-            }*/
-
-
-            AddMatch(matchList, round);
-        }
-
-
-        void DrawQuarterfinals() {
-            var round = RoundId.Quarterfinals;
+        void DrawOther(RoundId round) {
             var numOpponents = OpponentList.Count;
 
                 // Get Seeded Positions for each Opponent
@@ -124,31 +96,6 @@ namespace CouchParty.Tournament {
         }
 
 
-        void Draw16() {
-            var round = RoundId.Round16;
-            var numOpponents = OpponentList.Count;
-
-                // Get Seeded Positions for each Opponent
-            var seedsList = FlattenSeeds(GetOpponentSeeding(numOpponents));
-            /*foreach(var seed in seedsList) {
-                Console.WriteLine($"seed: {seed}");
-            }*/
-
-                // Split the seeds into 2 Groups
-            List<List<int>> matchList = GroupSeedsIntoListOfMatches(seedsList);
-            
-            /*
-            foreach(List<int> outer in matchList) {
-
-                Console.WriteLine("outer");
-                foreach(int inner in outer) {
-                    Console.WriteLine($"inner: {inner}");
-                }
-            }*/
-
-
-            AddMatch(matchList, round);
-        }
 
 
         void AddMatch(List<List<int>> matchList, RoundId round) {
@@ -186,18 +133,25 @@ namespace CouchParty.Tournament {
             GroupDrawType drawSize = 0;
             if (num <= (int)GroupDrawType.Finals) {
                 drawSize = GroupDrawType.Finals;
+                DrawSize = DrawType.Finals;
             } else if (num <= (int)GroupDrawType.Semifinals) {
                 drawSize = GroupDrawType.Semifinals;
+                DrawSize = DrawType.Semifinals;
             } else if (num <= (int)GroupDrawType.Quarterfinals) {
                 drawSize = GroupDrawType.Quarterfinals;
+                DrawSize = DrawType.Quarterfinals;
             } else if (num <= (int)GroupDrawType.Draw16) {
                 drawSize = GroupDrawType.Draw16;
+                DrawSize = DrawType.Draw16;
             } else if (num <= (int)GroupDrawType.Draw32) {
                 drawSize = GroupDrawType.Draw32;
+                DrawSize = DrawType.Draw32;
             } else if (num <= (int)GroupDrawType.Draw64) {
                 drawSize = GroupDrawType.Draw64;
+                DrawSize = DrawType.Draw64;
             } else {
                 drawSize = GroupDrawType.Draw128;
+                DrawSize = DrawType.Draw128;
             }
 
             return drawSize;

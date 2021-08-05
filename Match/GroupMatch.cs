@@ -1,13 +1,11 @@
 
 namespace CouchParty.Tournament {
 
-    public class GroupMatch : IMatch {
+    public class GroupMatch : Match {
 
-        public int Id { get; set; }
 
-        public Dictionary<int,Opponent> opponents = new Dictionary<int, Opponent>();
+        public Dictionary<int,Opponent> Opponents { get; private set; }
 
-        public MatchState State { get; set; } = MatchState.Ready;
 
         public int MinOpponents { get; set; } = 2;
 
@@ -15,21 +13,19 @@ namespace CouchParty.Tournament {
 
         public int NumWinners { get; set; } = 1;
 
-        public RoundId Round { get; private set; }
 
         public Dictionary<int,Opponent> winners = new Dictionary<int, Opponent>();
 
 
-        public GroupMatch(int id, RoundId round) {
-            Id = id;
-            Round = round;
+
+        public GroupMatch(int id, RoundId round) : base(id, round) {
         }
 
 
-        public bool AddOpponent(Opponent opp) {
-            if (opponents.Count < MaxOpponents) {
+        public bool AddOpponent(Opponent opponent) {
+            if (Opponents.Count < MaxOpponents) {
 
-                opponents.TryAdd(opp.Id, opp);
+                Opponents.TryAdd(opponent.Id, opponent);
                 return true;
             }
 
@@ -37,8 +33,8 @@ namespace CouchParty.Tournament {
         }
 
 
-        public void SetWinners(Dictionary<int, Opponent> opps) {
-            winners = opps;
+        public void SetWinners(Dictionary<int, Opponent> opponents) {
+            winners = opponents;
             this.State = MatchState.Completed;
         }
 
@@ -46,11 +42,13 @@ namespace CouchParty.Tournament {
         public override string ToString() {
             var sb = new System.Text.StringBuilder();
             sb.Append( $"Group Match Id: {Id} Opponents:");
-            foreach(KeyValuePair<int, Opponent> opponent in opponents) {
+            foreach(KeyValuePair<int, Opponent> opponent in Opponents) {
                 sb.Append( $" {opponent.Value.Name}{opponent.Value.Id} ");
             }
             return sb.ToString();
         }
+
+
     }
 
 }

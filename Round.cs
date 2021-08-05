@@ -14,20 +14,22 @@ namespace CouchParty.Tournament {
 
     public class Round {
 
-        public int Id { get; set; }
+        public int Id { get; init; }
 
-        public string Name { get; set; }
+        public string Name { get; init; }
 
-        public bool IsCompleted { get; set; }
+        public bool IsCompleted { get; set; } = false;
 
-        public Dictionary<int, IMatch> Matches = new Dictionary<int, IMatch>();
+        //public Dictionary<int, IMatch> Matches = new Dictionary<int, IMatch>();
+        public List<Match> Matches = new List<Match>();
 
         public RoundId RoundId { get; init; }
 
 
-        public bool AddMatch(IMatch match) {
+        public bool AddMatch(Match match) {
             try {
-                Matches.Add(match.Id, match);
+                //Matches.Add(match.Id, match);
+                Matches.Add(match);
             } catch(ArgumentException) {
                 //Console.WwriteLine("Match already exists");
                 return false;

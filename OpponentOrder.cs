@@ -7,6 +7,27 @@ namespace CouchParty.Tournament {
 
 
 
+    public abstract class OpponentOrder {
+
+        // <summary>
+        // Factory
+        // </summary>
+        public static IOpponentOrder Factory(List<Opponent> opponents, DrawOrderType order) {
+            IOpponentOrder myOrder = null;
+            switch(order) {
+                case DrawOrderType.BlindDraw:
+                    myOrder = new OpponentOrderRandom(opponents);
+                    break;
+                case DrawOrderType.SeededDraw:
+                    myOrder = new OpponentOrderRank(opponents);
+                    break;
+            }
+
+            return myOrder;
+        }
+    }
+
+
     // <summary>
     // Order opponents randomly in the Tournament draw
     // </summary>

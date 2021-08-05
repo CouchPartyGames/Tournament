@@ -11,7 +11,7 @@ namespace CouchParty.Tournament.Preset {
         // Generate All Matches in the Draw
         // </summary>
         public override void Generate() {
-            var order = 1;
+/*            var order = 1;
             int numMatches = 0; 
             int numRounds = 0;
             int id = 100;
@@ -22,7 +22,7 @@ namespace CouchParty.Tournament.Preset {
 
 
                 // Generate Matches for First Round
-            MatchGenerator gen = 1 == 1 ? new IndividualMatchGenerator(rank) : new GroupMatchGenerator(rank);
+            MatchGenerator gen = 1 == 1 ? new IndividualMatchGenerator(rank) : new GroupMatchGenerator(rank);*/
         }
 
 

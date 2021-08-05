@@ -1,21 +1,21 @@
 
 namespace CouchParty.Tournament {
 
+    public enum DrawType {
+        Finals = 2,
+        Semifinals = 4,
+        Quarterfinals = 8,
+        Draw16 = 16,
+        Draw32 = 32,
+        Draw64 = 64,
+        Draw128 = 128
+    }
 
     public class MatchGenerator {
 
-        public enum DrawType {
-            Finals = 2,
-            Semifinals = 4,
-            Quarterfinals = 8,
-            Draw16 = 16,
-            Draw32 = 32,
-            Draw64 = 64,
-            Draw128 = 128
-        }
 
 
-        public List<IMatch> MatchList { get; protected set; }
+        public List<Match> MatchList { get; protected set; }
 
         public DrawType DrawSize { get; protected set; }
 
@@ -24,10 +24,27 @@ namespace CouchParty.Tournament {
         public Dictionary<int, Opponent> OpponentList { get; private set; }
 
         public MatchGenerator(Dictionary<int, Opponent> opps) {
-            MatchList = new List<IMatch>();
+            MatchList = new List<Match>();
             NumByes = 0;
 
             OpponentList = new Dictionary<int, Opponent>(opps);
+        }
+
+
+
+        public static MatchGenerator Factory(IOpponentOrder orderedOpponents, BracketMode type) {
+            MatchGenerator generator = null;
+            switch(type) {
+                case BracketMode.Individual:
+                    generator = new IndividualMatchGenerator(orderedOpponents);
+                    break;
+
+                case BracketMode.Group:
+                    generator = new GroupMatchGenerator(orderedOpponents);
+                    break;
+            }
+
+            return generator;
         }
 
 
@@ -44,6 +61,7 @@ namespace CouchParty.Tournament {
                 }
             }
         }
+
 
         // <summary>
         // </summary>

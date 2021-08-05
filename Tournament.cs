@@ -2,14 +2,14 @@
 
 namespace CouchParty.Tournament {
 
-    public enum TournamentOrder {
-        Random,
-        Ranking
-    }
-
     public enum DrawOrderType {
         BlindDraw,
         SeededDraw
+    }
+
+    public enum BracketMode {
+        Individual,
+        Group
     }
 
     public class Tournament {
@@ -24,15 +24,16 @@ namespace CouchParty.Tournament {
         public DateTime? StartDate { get; set; } = null;
 
             // All Opponents
-        public List<Opponent> Opponents { get; private set; }
+        public List<Opponent> Opponents { get; protected set; }
 
             // Rounds
         public List<Round> Rounds { get; set; }
+        //public Dictionary<int, Round> Rounds { get; set; }
 
         public TournamentSettings Settings { get; private set; }
 
 
-        public TournamentOrder Order { get; set; }
+        public DrawOrderType Order { get; set; }
 
 
 
@@ -41,6 +42,7 @@ namespace CouchParty.Tournament {
 
             Rounds = new List<Round>();
             Opponents = new List<Opponent>();
+            Order = DrawOrderType.SeededDraw;
         }
 
         public void SetOpponents(List<Opponent> opps) {
@@ -74,10 +76,6 @@ namespace CouchParty.Tournament {
             Triple
         }
 
-        public enum BracketMode {
-            Individual,
-            Group
-        }
 
         public bool IsSeeded { get; set; }
 

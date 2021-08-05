@@ -26,7 +26,7 @@ namespace CouchParty.Tournament {
             TournamentSettings settings = new TournamentSettings();
             Tournament tournay = new SingleElimination(settings);
             tournay.Name = "CouchParty Tournament";
-            tournay.Order = TournamentOrder.Random;
+            tournay.Order = DrawOrderType.BlindDraw;
 
             foreach(Opponent opp in opps) {
                 tournay.AddOpponent(opp);
@@ -34,6 +34,19 @@ namespace CouchParty.Tournament {
 
             tournay.Generate();
             Console.WriteLine(tournay);
+
+
+            foreach(var round in tournay.Rounds) {
+                Console.WriteLine($"{round.Name} ({round.Id})");
+                foreach(var match in round.Matches) {
+                //foreach(KeyValuePair<int, IMatch> match in round.Matches) {
+                    //Console.WriteLine($"{match.Value.Id}");
+                    Console.WriteLine($" {match}");
+                    
+                }
+            }
+
+            Simulate sim = new Simulate(tournay);
 
         }
     }
