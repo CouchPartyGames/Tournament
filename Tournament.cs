@@ -35,6 +35,8 @@ namespace CouchParty.Tournament {
 
         public DrawOrderType Order { get; set; }
 
+        public BracketMode Mode { get; set; }
+
 
 
         public Tournament(TournamentSettings settings) {
@@ -43,6 +45,7 @@ namespace CouchParty.Tournament {
             Rounds = new List<Round>();
             Opponents = new List<Opponent>();
             Order = DrawOrderType.SeededDraw;
+            Mode = BracketMode.Individual;
         }
 
         public void SetOpponents(List<Opponent> opps) {

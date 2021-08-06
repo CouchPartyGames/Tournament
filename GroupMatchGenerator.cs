@@ -61,8 +61,6 @@ namespace CouchParty.Tournament {
                 { 1, new List<int>(OpponentList.Keys.ToList()) }
             };
 
-            Console.WriteLine("Group DrawFinals");
-
             AddMatch(matchList, round);
         }
 
@@ -79,18 +77,10 @@ namespace CouchParty.Tournament {
                 Console.WriteLine($"seed: {seed}");
             }*/
 
-                // Split the seeds into 2 Groups
-            List<List<int>> matchList = GroupSeedsIntoListOfMatches(seedsList);
+                // Split the seeds into # of Groups
+            List<List<int>> matchList = GroupSeedsIntoListOfMatches(seedsList, OpponentsPerGroup);
             
-            
-            foreach(List<int> outer in matchList) {
-
-                Console.WriteLine("outer");
-                foreach(int inner in outer) {
-                    Console.WriteLine($"inner: {inner}");
-                }
-            }
-
+            //DebugMatchList(matchList);
 
             AddMatch(matchList, round);
         }
@@ -170,14 +160,32 @@ namespace CouchParty.Tournament {
         }
 
         // <summary>
-        // Convert entire list of seeds into multiple groups
+        // Convert entire flat list of seeds into multiple groups
         // </summary>
-        List<List<int>> GroupSeedsIntoListOfMatches(List<int> seedsList) {
+        // <param>A list of seeded positions for opponents</param>
+        // <param></param>
+        List<List<int>> GroupSeedsIntoListOfMatches(List<int> seedsList, int opponentsPerGroup) {
+            if (opponentsPerGroup < 2) {
+                //throw new Exception('');
+            }
+
             return seedsList
                 .Select((x, i) => new { Index = i, Value = x })
-                .GroupBy(x => x.Index / OpponentsPerGroup)
+                .GroupBy(x => x.Index / opponentsPerGroup)
                 .Select(x => x.Select(v => v.Value).ToList())
                 .ToList();
+        }
+
+
+        // <summary>
+        // </summary>
+        void DebugMatchList(List<List<int>> matchList) {
+            foreach(List<int> outer in matchList) {
+                Console.WriteLine("outer");
+                foreach(int inner in outer) {
+                    Console.WriteLine($"  inner: {inner}");
+                }
+            }
         }
 
     }

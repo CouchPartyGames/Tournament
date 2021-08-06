@@ -10,11 +10,11 @@ namespace CouchParty.Tournament {
 
 
             foreach(var round in tourny.Rounds) {
-                foreach(IndividualMatch match in round.Matches) {
-                    winner = rand.Next(0, 2) == 0 ? match.Opp1 : match.Opp2;
+                foreach(Match match in round.Matches) {
+                    //winner = rand.Next(0, 2) == 0 ? match.Opp1 : match.Opp2;
 
-                    Console.WriteLine($"Match Id: {match.Id} {winner}");
-                    match.SetWinner(winner);
+                    match.SetResults(match.Opponents);
+                    Console.WriteLine($"Match Id: {match.Id} {match}");
                 }
             }
         }

@@ -36,27 +36,29 @@ namespace CouchParty.Tournament {
         }
 
 
-        public override string ToString() {
-            return $"Next Match: {NextMatch.Id}";
-        }
-
 
         public void ProgressOpponents() {
+            int offset = 0;
+
             if (IsCompleted == true) {
                 return;
             }
 
                 // Advance Opponents to the next Match
                 // Advance 1 to many opponents
+            var opps = PrevMatch.MatchResults.Skip(offset).Take(NumOpponents);
 
-                // 
-            NextMatch.AddOpponent(PrevMatch.Winner);
-
-            Console.WriteLine($"Prev Match: {PrevMatch}");
-            Console.WriteLine($"Next Match: {NextMatch}");
+            foreach(var opp in opps) {
+                NextMatch.AddOpponent(opp);
+            }
+            Console.WriteLine($"Winner Done");
 
                 // Progression is Complete
             IsCompleted = true;
+        }
+
+        public override string ToString() {
+            return $"Next Match: {NextMatch.Id}";
         }
     }
 }

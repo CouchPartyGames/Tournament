@@ -21,7 +21,7 @@ namespace CouchParty.Tournament.Preset {
             IOpponentOrder orderedOpponents = OpponentOrder.Factory(Opponents, Order);
 
                 // Generate Matches for First Round (adds byes)
-            MatchGenerator gen = MatchGenerator.Factory(orderedOpponents, BracketMode.Individual);
+            MatchGenerator gen = MatchGenerator.Factory(orderedOpponents, Mode);
             //MatchGenerator gen = MatchGenerator.Factory(orderedOpponents, BracketMode.Group);
 
 
@@ -58,14 +58,16 @@ namespace CouchParty.Tournament.Preset {
                 for(int matchId = 1; matchId <= numMatchesInRound; matchId++) {
 
                         // create a match for this round
-                    nextMatch = new IndividualMatch(id, (RoundId)roundId);
+                    nextMatch = Mode == BracketMode.Individual ? 
+                        new IndividualMatch(id, (RoundId)roundId) :
+                        new GroupMatch(id, (RoundId)roundId);
 
                     prevMatch1 = prevRound.Matches[(matchId * 2) - 2];
                     prevMatch2 = prevRound.Matches[(matchId * 2) - 1]; 
 
                         // Single Elimination means there is only one progression, winner(s) advance
-                    prevMatch1.AddProgression(new Progression( prevMatch1, nextMatch ));
-                    prevMatch2.AddProgression(new Progression( prevMatch2, nextMatch ));
+                    prevMatch1.AddProgression(new Progression( prevMatch1, nextMatch, 2 ));
+                    prevMatch2.AddProgression(new Progression( prevMatch2, nextMatch, 2 ));
 
                     round.AddMatch(nextMatch);
 

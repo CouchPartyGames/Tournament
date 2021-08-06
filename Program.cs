@@ -25,7 +25,11 @@ namespace CouchParty.Tournament {
 
             TournamentSettings settings = new TournamentSettings();
             Tournament tournay = new SingleElimination(settings);
+            //Tournament tournay = new DoubleElimination(settings);
+
             tournay.Name = "CouchParty Tournament";
+            //tournay.Mode = BracketMode.Individual;
+            tournay.Mode = BracketMode.Group;
             tournay.Order = DrawOrderType.BlindDraw;
 
             foreach(Opponent opp in opps) {

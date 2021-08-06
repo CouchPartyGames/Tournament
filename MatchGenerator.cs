@@ -11,10 +11,12 @@ namespace CouchParty.Tournament {
         Draw128 = 128
     }
 
+
     public class MatchGenerator {
 
 
 
+        // <summary>
         public List<Match> MatchList { get; protected set; }
 
         public DrawType DrawSize { get; protected set; }

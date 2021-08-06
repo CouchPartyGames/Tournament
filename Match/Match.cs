@@ -20,6 +20,7 @@ namespace CouchParty.Tournament {
     }
 
 
+
     public abstract class Match : IMatch {
         public int Id { get; set; }
 
@@ -33,21 +34,42 @@ namespace CouchParty.Tournament {
 
         public List<Opponent> MatchResults { get; set; }
 
-        public Opponent Winner { get; set; }
-
 
         public Match(int id, RoundId round) {
-                Id = id;
-                Round = round;
+            Id = id;
+            Round = round;
 
-                Progressions = new List<Progression>();
+            Progressions = new List<Progression>();
+            Opponents = new List<Opponent>();
+            MatchResults = new List<Opponent>();
         }
 
 
+        // <summary>
+        // </summary>
         public virtual void AddOpponent(Opponent opponent) {
             Opponents.Add(opponent);
         }
 
+
+        // <summary>
+        // </summary>
+        public virtual void SetResults(List<Opponent> results) {
+            if (State == MatchState.Completed) {
+                return ;
+            }
+
+            MatchResults = results;
+            State = MatchState.Completed;
+
+            foreach(var progress in Progressions) {
+                progress.ProgressOpponents();
+            }
+        }
+
+        // <summary>
+        // Add a match progression
+        // </summary>
         public void AddProgression(Progression progression) {
             Progressions.Add(progression);
         }
