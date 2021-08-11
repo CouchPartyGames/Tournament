@@ -14,7 +14,7 @@ namespace CouchParty.Tournament {
 
         public const int ByeRank = Int32.MaxValue;
 
-        public const int NotRank = 888888;
+        public const int NotRank = 888_888;
 
         public int Id { get; set; }
 

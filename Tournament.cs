@@ -12,6 +12,7 @@ namespace CouchParty.Tournament {
         Group
     }
 
+
     public class Tournament {
 
         public string Name { get; set; }

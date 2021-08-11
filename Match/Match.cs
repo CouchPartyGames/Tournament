@@ -22,6 +22,7 @@ namespace CouchParty.Tournament {
 
 
     public abstract class Match : IMatch {
+
         public int Id { get; set; }
 
         public RoundId Round { get; private set; }

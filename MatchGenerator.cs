@@ -15,8 +15,9 @@ namespace CouchParty.Tournament {
     public class MatchGenerator {
 
 
-
         // <summary>
+        // List of Matches
+        // </summary>
         public List<Match> MatchList { get; protected set; }
 
         public DrawType DrawSize { get; protected set; }
@@ -24,6 +25,7 @@ namespace CouchParty.Tournament {
         public int NumByes { get; protected set; }
 
         public Dictionary<int, Opponent> OpponentList { get; private set; }
+
 
         public MatchGenerator(Dictionary<int, Opponent> opps) {
             MatchList = new List<Match>();
@@ -51,6 +53,7 @@ namespace CouchParty.Tournament {
 
 
         // <summary>
+        // Add Byes where needed
         // </summary>
         protected void AddByeOpponents() {
             var id = OpponentList.Count;
