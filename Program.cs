@@ -1,58 +1,56 @@
 ﻿using CouchParty.Tournament.Preset;
 
-namespace CouchParty.Tournament {
+namespace CouchParty.Tournament;
 
-    class Program {
+class Program {
 
-        static void Main(string[] args) {
+    static void Main(string[] args) {
 
-            List<Opponent> opps = new List<Opponent>() {
-                new Opponent(1, "Bill"),
-                new Opponent(2, "Bob"),
-                new Opponent(3, "Steve"),
-                new Opponent(4, "Greg", 3),
-                new Opponent(5, "Jeter", 7),
-                new Opponent(6, "Carter", 9),
-                new Opponent(7, "Aaron", 2),
-                new Opponent(8, "Tom", 4),
-                new Opponent(9, "Carl", 5),
-                new Opponent(10, "Rick", 15),
-                new Opponent(11, "Will", 25),
-                new Opponent(12, "George", 35),
-                new Opponent(13, "Don", 95),
-                new Opponent(14, "Obama", 75),
-            };
+        List<Opponent> opps = new List<Opponent>() {
+            new Opponent(1, "Bill"),
+            new Opponent(2, "Bob"),
+            new Opponent(3, "Steve"),
+            new Opponent(4, "Greg", 3),
+            new Opponent(5, "Jeter", 7),
+            new Opponent(6, "Carter", 9),
+            new Opponent(7, "Aaron", 2),
+            new Opponent(8, "Tom", 4),
+            new Opponent(9, "Carl", 5),
+            new Opponent(10, "Rick", 15),
+            new Opponent(11, "Will", 25),
+            new Opponent(12, "George", 35),
+            new Opponent(13, "Don", 95),
+            new Opponent(14, "Obama", 75),
+        };
 
-            TournamentSettings settings = new TournamentSettings();
-            Tournament tournay = new SingleElimination(settings);
-            //Tournament tournay = new DoubleElimination(settings);
+        TournamentSettings settings = new TournamentSettings();
+        Tournament tournay = new SingleElimination(settings);
+        //Tournament tournay = new DoubleElimination(settings);
 
-            tournay.Name = "CouchParty Tournament";
-            //tournay.Mode = BracketMode.Individual;
-            tournay.Mode = BracketMode.Group;
-            tournay.Order = DrawOrderType.BlindDraw;
+        tournay.Name = "CouchParty Tournament";
+        //tournay.Mode = BracketMode.Individual;
+        tournay.Mode = BracketMode.Group;
+        tournay.Order = DrawOrderType.BlindDraw;
 
-            foreach(Opponent opp in opps) {
-                tournay.AddOpponent(opp);
-            }
-
-            tournay.Generate();
-            Console.WriteLine(tournay);
-
-
-            foreach(var round in tournay.Rounds) {
-                Console.WriteLine($"{round.Name} ({round.Id})");
-                foreach(var match in round.Matches) {
-                //foreach(KeyValuePair<int, IMatch> match in round.Matches) {
-                    //Console.WriteLine($"{match.Value.Id}");
-                    Console.WriteLine($" {match}");
-                    
-                }
-            }
-
-            Simulate sim = new Simulate(tournay);
-
+        foreach(Opponent opp in opps) {
+            tournay.AddOpponent(opp);
         }
+
+        tournay.Generate();
+        Console.WriteLine(tournay);
+
+
+        foreach(var round in tournay.Rounds) {
+            Console.WriteLine($"{round.Name} ({round.Id})");
+            foreach(var match in round.Matches) {
+            //foreach(KeyValuePair<int, IMatch> match in round.Matches) {
+                //Console.WriteLine($"{match.Value.Id}");
+                Console.WriteLine($" {match}");
+                
+            }
+        }
+
+        Simulate sim = new Simulate(tournay);
+
     }
 }
-
