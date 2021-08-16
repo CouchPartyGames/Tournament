@@ -47,6 +47,13 @@ public abstract class Match : IMatch {
     }
 
 
+    public static bool operator ==(Match m1, Match m2) 
+        => (m1.Id) == (m2.Id);
+    
+    public static bool operator !=(Match m1, Match m2) 
+        => (m1.Id) != (m2.Id);
+
+
     // <summary>
     // </summary>
     public virtual void AddOpponent(Opponent opponent) {

@@ -26,11 +26,15 @@ public class Opponent : IOpponent {
     public bool IsBye { get; private set; }
 
 
-    public Opponent(int id, string name, int rank = NotRank) {
-        Id = id;
-        Name = name;
-        Rank = rank;
-    }
+    public Opponent(int id, string name, int rank = NotRank)
+        => (Id, Name, Rank) = (id, name, rank); 
+
+
+    public static bool operator ==(Opponent o1, Opponent o2)
+        => (o1.Id) == (o2.Id);
+
+    public static bool operator !=(Opponent o1, Opponent o2) 
+        => (o1.Id) != (o2.Id);
 
 
     public Opponent(int id, string name, bool isBye) {
