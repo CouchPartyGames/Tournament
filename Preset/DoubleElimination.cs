@@ -30,7 +30,8 @@ namespace CouchParty.Tournament.Preset {
                 // Add 1st Round
             Round round = new Round() {
                 Id = 1,
-                Name = "Round 1"
+                Name = "Round 1",
+                RoundId = (RoundId)totalRounds
             };
 
 
@@ -43,6 +44,8 @@ namespace CouchParty.Tournament.Preset {
                 // All Additional Rounds
             for(int roundId = 2; roundId <= totalRounds; roundId++) {
 
+                GenerateWinningBracket();
+                GenerateLosingBracket();
             }
 
         }

@@ -23,7 +23,7 @@ class Program {
             new Opponent(14, "Obama", 75),
         };
 
-        bool isDoubleElimination = false;
+        bool isDoubleElimination = true;
         bool isGroup = true;
         bool isSeeded = true;
 

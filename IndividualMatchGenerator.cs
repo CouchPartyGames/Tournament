@@ -74,15 +74,22 @@ public class IndividualMatchGenerator : MatchGenerator {
 
 
     
+    // <summary>
+    // Add Matches to List 
+    //
+    // </summary>
     void AddMatch(List<(int,int)> matchList, RoundId round) {
         int id = 1;
 
         foreach( var matchOpponents in matchList) {
 
-            /*if (!OpponentList.TryGetValue(matchOpponents.Item1, out Opponent opponent1)) {
-            }*/
-            Opponent opponent1 = OpponentList[matchOpponents.Item1 - 1];
-            Opponent opponent2 = OpponentList[matchOpponents.Item2 - 1];
+            if (!OpponentList.TryGetValue(matchOpponents.Item1 - 1, out Opponent opponent1)) {
+                throw new ArgumentOutOfRangeException("Bad Index in OpponentList", nameof(opponent1));
+            }
+
+            if (!OpponentList.TryGetValue(matchOpponents.Item2 - 1, out Opponent opponent2)) {
+                throw new ArgumentOutOfRangeException("Bad Index in OpponentList", nameof(opponent2));
+            }
 
             /*
             Opponent opponent1 = OpponentList.FirstOrDefault(x => x.Id == matchOpponents.Item1 - 1);
