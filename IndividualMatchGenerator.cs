@@ -78,6 +78,9 @@ public class IndividualMatchGenerator : MatchGenerator {
         int id = 1;
 
         foreach( var matchOpponents in matchList) {
+
+            /*if (!OpponentList.TryGetValue(matchOpponents.Item1, out Opponent opponent1)) {
+            }*/
             Opponent opponent1 = OpponentList[matchOpponents.Item1 - 1];
             Opponent opponent2 = OpponentList[matchOpponents.Item2 - 1];
 
@@ -85,7 +88,6 @@ public class IndividualMatchGenerator : MatchGenerator {
             Opponent opponent1 = OpponentList.FirstOrDefault(x => x.Id == matchOpponents.Item1 - 1);
             Opponent opponent2 = OpponentList.FirstOrDefault(x => x.Id == matchOpponents.Item2 - 1);
             */
-
             MatchList.Add(new IndividualMatch(id, round, opponent1, opponent2));
             id++;
         }

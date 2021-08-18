@@ -3,10 +3,22 @@ namespace CouchParty.Tournament;
 
 
 public enum MatchState {
+        // All Opponents are ready
     Ready = 0,
+
+        // All Opponents are accounted for on the dedicated server 
+    OpponentsRegistered,
+
+        // Match Started on dedicated server
+    Started,
+
+        // match is in progress
     InProgress,
+
+        // Completed
     Completed
 }
+
 
 public interface IMatch {
 
@@ -32,7 +44,7 @@ public abstract class Match : IMatch {
 
     public List<Progression> Progressions { get; set; }
 
-    public List<Opponent> Opponents { get; set; }
+    public List<Opponent> Opponents { get; protected set; }
 
     public List<Opponent> MatchResults { get; set; }
 

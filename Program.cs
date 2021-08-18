@@ -23,14 +23,16 @@ class Program {
             new Opponent(14, "Obama", 75),
         };
 
+        bool isDoubleElimination = false;
+        bool isGroup = true;
+        bool isSeeded = true;
+
         TournamentSettings settings = new TournamentSettings();
-        Tournament tournay = new SingleElimination(settings);
-        //Tournament tournay = new DoubleElimination(settings);
+        Tournament tournay = isDoubleElimination ? new DoubleElimination(settings) : new SingleElimination(settings);
 
         tournay.Name = "CouchParty Tournament";
-        //tournay.Mode = BracketMode.Individual;
-        tournay.Mode = BracketMode.Group;
-        tournay.Order = DrawOrderType.BlindDraw;
+        tournay.Mode = isGroup ? BracketMode.Group : BracketMode.Individual;
+        tournay.Order = isSeeded ? DrawOrderType.SeededDraw : DrawOrderType.BlindDraw;
 
         foreach(Opponent opp in opps) {
             tournay.AddOpponent(opp);
@@ -41,15 +43,15 @@ class Program {
 
 
         foreach(var round in tournay.Rounds) {
-            Console.WriteLine($"{round.Name} ({round.Id})");
+            Console.WriteLine($"{round}");
             foreach(var match in round.Matches) {
             //foreach(KeyValuePair<int, IMatch> match in round.Matches) {
-                //Console.WriteLine($"{match.Value.Id}");
-                Console.WriteLine($" {match}");
+                Console.WriteLine($"{match}");
                 
             }
         }
 
+        Console.WriteLine();
         Simulate sim = new Simulate(tournay);
 
     }

@@ -28,13 +28,21 @@ public class IndividualMatch : Match {
             return;
         }
 
-        AddOpponent(opponent);
+        Opponents.Add(opponent);
     }
 
 
 
     public override string ToString() {
-        return $"Individual Match: {Id} {State.ToString()}";
+
+        var sb = new System.Text.StringBuilder();
+        sb.Append( $"Individual Match: #{Id} Opponents:");
+
+        foreach(var opponent in Opponents) {
+            sb.Append( $" {opponent} ");
+        }
+        return sb.ToString();
+        //return $"Individual Match: #{Id} - {Opponents[0]} vs {Opponents[1]} - {State.ToString()}";
     }
 
 }

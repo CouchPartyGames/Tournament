@@ -31,7 +31,8 @@ namespace CouchParty.Tournament.Preset {
                 // Add 1st Round
             Round round = new Round() {
                 Id = 1,
-                Name = "Round 1"
+                Name = "Round 1",
+                RoundId = (RoundId)numRounds 
             };
 
                 // Add Matches for the First Round
@@ -47,7 +48,8 @@ namespace CouchParty.Tournament.Preset {
 
                 round = new Round() { 
                     Id = roundId,
-                    Name = $"Round {roundId}"
+                    Name = $"Round {roundId}",
+                    RoundId = (RoundId)(numRounds - (roundId - 1))
                 };
 
                     // Find the number of matches in this round
@@ -73,6 +75,7 @@ namespace CouchParty.Tournament.Preset {
 
                     id++;
                 }
+
 
                 Rounds.Add(round);
             }

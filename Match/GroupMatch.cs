@@ -36,7 +36,5 @@ public class GroupMatch : Match {
         }
         return sb.ToString();
     }
-
-
 }
 

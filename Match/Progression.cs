@@ -29,11 +29,8 @@ public class Progression {
 
     //  Number of Opponents to Progress
 
-    public Progression(Match prevMatch, Match nextMatch, int numOpponents = 1) {
-        PrevMatch = prevMatch;
-        NextMatch = nextMatch;
-        NumOpponents = numOpponents;
-    }
+    public Progression(Match prevMatch, Match nextMatch, int numOpponents = 1) =>
+        (PrevMatch, NextMatch, NumOpponents) = (prevMatch, nextMatch, numOpponents);
 
 
 
@@ -51,13 +48,11 @@ public class Progression {
         foreach(var opp in opps) {
             NextMatch.AddOpponent(opp);
         }
-        Console.WriteLine($"Winner Done");
 
             // Progression is Complete
         IsCompleted = true;
     }
 
-    public override string ToString() {
-        return $"Next Match: {NextMatch.Id}";
-    }
+
+    public override string ToString() => $"Next Match: {NextMatch.Id}";
 }

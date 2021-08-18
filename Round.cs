@@ -46,5 +46,7 @@ public class Round {
         Direction.Left  => Orientation.West,
         _ => throw new ArgumentOutOfRangeException(nameof(direction), $"Not expected direction value: {direction}"),
     };*/
+
+    public override string ToString() => $"Round: {Id} - {RoundId.ToString()} - # of Matches: {Matches.Count}";
 }
 
