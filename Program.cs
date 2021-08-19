@@ -23,8 +23,8 @@ class Program {
             new Opponent(14, "Obama", 75),
         };
 
-        bool isDoubleElimination = true;
-        bool isGroup = true;
+        bool isDoubleElimination = false;
+        bool isGroup = false;
         bool isSeeded = true;
 
         TournamentSettings settings = new TournamentSettings();

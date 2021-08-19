@@ -36,6 +36,7 @@ public class Tournament {
 
     public DrawOrderType Order { get; set; }
 
+
     public BracketMode Mode { get; set; }
 
 
@@ -66,9 +67,7 @@ public class Tournament {
     }
 
 
-    public override string ToString() {
-        return $"Name: {Name}\nNum Opponents: {Opponents.Count}";
-    }
+    public override string ToString() =>  $"Name: {Name}\nNum Opponents: {Opponents.Count}";
 }
 
 
@@ -95,6 +94,7 @@ public class TournamentSettings {
         Elimination = EliminationMode.Single;
     }
 }
+
 
 
 public class GroupSettings {

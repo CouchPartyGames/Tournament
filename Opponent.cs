@@ -3,6 +3,8 @@ namespace CouchParty.Tournament;
 
 
 public interface IOpponent {
+
+    // Opponent id
     int Id { get; set; }
 
     string Name { get; set; }
@@ -45,7 +47,5 @@ public class Opponent : IOpponent {
     }
 
 
-    public override string ToString() {
-        return $"{Name} ({Id})";
-    }
+    public override string ToString() => $"{Name} ({Id})";
 }

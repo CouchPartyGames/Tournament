@@ -6,6 +6,9 @@ public class IndividualMatch : Match {
 
 
     public IndividualMatch(int id, RoundId round) : base(id, round) {
+        MinOpponents = 2;
+        MaxOpponents = 2;
+        NumWinners = 1;
     }
 
 
@@ -44,5 +47,4 @@ public class IndividualMatch : Match {
         return sb.ToString();
         //return $"Individual Match: #{Id} - {Opponents[0]} vs {Opponents[1]} - {State.ToString()}";
     }
-
 }

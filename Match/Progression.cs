@@ -7,50 +7,60 @@ public class Progression {
     // <summary>
     // the current match
     // </summary>
-    Match PrevMatch { get; set; }
+    Match PrevMatch { get; }
 
 
     // <summary>
     // The next match after completing a match
     // </summary>
-    Match NextMatch { get; set; }
+    Match NextMatch { get;  }
 
     // <summary>
     // Is Progression Complete
     // </summary>
-    bool IsCompleted { get; set; } = false;
+    bool IsCompleted { get { return isCompleted; } } 
+    bool isCompleted;
 
 
     // <summary>
-    // Number of opponents that advance to the next match
+    // Number of opponents that progress to the next match
     // </summary>
-    int NumOpponents { get; set; }
+    int NumOpponents { get; }
 
 
-    //  Number of Opponents to Progress
+    // <summary>
+    // Where to start advancing opponents in a match
+    // </summary>
+    int Offset { get; }
 
-    public Progression(Match prevMatch, Match nextMatch, int numOpponents = 1) =>
-        (PrevMatch, NextMatch, NumOpponents) = (prevMatch, nextMatch, numOpponents);
+
+
+    public Progression(Match prevMatch, Match nextMatch, int numOpponents = 1, int offset = 0) {
+        PrevMatch = prevMatch;
+        NextMatch = nextMatch;
+
+        NumOpponents = numOpponents;
+        Offset = offset;
+        isCompleted = false;
+    }
 
 
 
     public void ProgressOpponents() {
-        int offset = 0;
-
-        if (IsCompleted == true) {
+        if (isCompleted == true) {
             return;
         }
 
             // Advance Opponents to the next Match
             // Advance 1 to many opponents
-        var opps = PrevMatch.MatchResults.Skip(offset).Take(NumOpponents);
+        var opponents = PrevMatch.MatchResults.Skip(Offset).Take(NumOpponents);
 
-        foreach(var opp in opps) {
-            NextMatch.AddOpponent(opp);
+        foreach(var opponent in opponents) {
+            NextMatch.AddOpponent(opponent);
         }
 
             // Progression is Complete
-        IsCompleted = true;
+        isCompleted = true;
     }
 
 

@@ -4,15 +4,10 @@ namespace CouchParty.Tournament;
 public class GroupMatch : Match {
 
 
-    public int MinOpponents { get; set; } = 2;
-
-    public int MaxOpponents { get; set; } = 4;
-
-    public int NumWinners { get; set; } = 2;
-
-
-
     public GroupMatch(int id, RoundId round) : base(id, round) {
+        MinOpponents = 2;
+        MaxOpponents = 4;
+        NumWinners = 2;
     }
 
 
