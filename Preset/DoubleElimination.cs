@@ -14,6 +14,10 @@ public class DoubleElimination : Tournament {
     public override void Generate() {
         int id = 100;
 
+        /*
+        if (Opponents.Count < 3) {
+            thrown new Exception();
+        }*/
 
             // order all opponents in the draw (doesn't include byes)
         IOpponentOrder orderedOpponents = OpponentOrder.Factory(Opponents, Order);
@@ -68,6 +72,7 @@ public class DoubleElimination : Tournament {
         
         prevRound = Rounds[roundId - 2];
 
+
         for(int matchId = 1; matchId <= numMatchesInRound; matchId++) {
 
                 // create a match for this round
@@ -111,6 +116,8 @@ public class DoubleElimination : Tournament {
             RoundId = (RoundId)(totalRounds - (roundId - 1))
         };
 
+        prevRound = Rounds[roundId - 2];
+        
             // Find the number of matches in this round
         int numMatchesInRound = drawSize / (int)Math.Pow(2, roundId);
 
@@ -121,6 +128,7 @@ public class DoubleElimination : Tournament {
                 new IndividualMatch(id, (RoundId)roundId) :
                 new GroupMatch(id, (RoundId)roundId);
 
+        
             prevMatch1 = prevRound.Matches[(i * 2) - 2];
             prevMatch2 = prevRound.Matches[(i * 2) - 1]; 
 
@@ -131,9 +139,12 @@ public class DoubleElimination : Tournament {
             round.AddMatch(nextMatch);
 
             id++;
+            Console.WriteLine($"  {nextMatch}");
 
         }
+        
+        Console.WriteLine($"{round}");
 
-        Rounds.Add(round);
+        //Rounds.Add(round);
     }
 }

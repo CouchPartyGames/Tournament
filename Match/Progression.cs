@@ -2,6 +2,12 @@
 namespace CouchParty.Tournament;
 
 
+public enum ProgressionType {
+    Win,
+    Lose
+}
+
+
 public class Progression {
 
     // <summary>
