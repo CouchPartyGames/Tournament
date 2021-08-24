@@ -70,26 +70,13 @@ public class MatchGenerator {
 
 
     // <summary>
+    // 
     // </summary>
-    protected DrawType DetermineDrawSize(int num) {
-        DrawType drawSize = 0;
-        if (num <= (int)DrawType.Finals) {
-            drawSize = DrawType.Finals;
-        } else if (num <= (int)DrawType.Semifinals) {
-            drawSize = DrawType.Semifinals;
-        } else if (num <= (int)DrawType.Quarterfinals) {
-            drawSize = DrawType.Quarterfinals;
-        } else if (num <= (int)DrawType.Draw16) {
-            drawSize = DrawType.Draw16;
-        } else if (num <= (int)DrawType.Draw32) {
-            drawSize = DrawType.Draw32;
-        } else if (num <= (int)DrawType.Draw64) {
-            drawSize = DrawType.Draw64;
-        } else {
-            drawSize = DrawType.Draw128;
-        }
+    protected DrawType DetermineDrawSize(int numOpponents) {
+        var size = BitOperations.RoundUpToPowerOf2((uint)numOpponents);
 
-        return drawSize;
+        return size > (int)DrawType.Draw128 ? 
+            DrawType.Draw128 : (DrawType)size;
     }
 
 
