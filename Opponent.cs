@@ -13,6 +13,17 @@ public interface IOpponent {
 }
 
 
+public class ByeOpponent : Opponent {
+
+    public const int ByeRank = Int32.MaxValue;
+
+    public ByeOpponent(int id, string name) : base(id, name, ByeRank) {
+        IsBye = true;
+        Rank = ByeRank;
+    }
+
+}
+
 public class Opponent : IOpponent {
 
     public const int ByeRank = Int32.MaxValue;
@@ -25,7 +36,7 @@ public class Opponent : IOpponent {
 
     public int Rank { get; set; }
 
-    public bool IsBye { get; private set; }
+    public bool IsBye { get; protected set; }
 
 
     public Opponent(int id, string name, int rank = NotRank)

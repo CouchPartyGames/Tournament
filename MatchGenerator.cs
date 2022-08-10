@@ -73,6 +73,7 @@ public class MatchGenerator {
     // 
     // </summary>
     protected DrawType DetermineDrawSize(int numOpponents) {
+        //BitOperations.IsPow2(numOpponents);
         var size = BitOperations.RoundUpToPowerOf2((uint)numOpponents);
 
         return size > (int)DrawType.Draw128 ? 
