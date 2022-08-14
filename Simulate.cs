@@ -14,9 +14,9 @@ public class Simulate {
                 //winner = rand.Next(0, 2) == 0 ? match.Opp1 : match.Opp2;
 
                 var results = GetRandomResults(match);
-                foreach(var order in results) {
+                /*foreach(var order in results) {
                     Console.WriteLine(order);
-                }
+                }*/
                 match.SetResults(results);
                 //match.SetResults(match.Opponents);
                 //Console.WriteLine($"{match}");
