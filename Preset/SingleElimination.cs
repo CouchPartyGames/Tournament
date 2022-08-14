@@ -8,7 +8,7 @@ public class SingleElimination : Tournament {
 
 
     public override void Generate() {
-        int numToAdvance = 2;
+        int numToAdvance = 1;
         int numMatchesInRound = 0; 
         int id = 100;
 

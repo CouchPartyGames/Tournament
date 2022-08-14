@@ -72,6 +72,7 @@ public class DoubleElimination : Tournament {
         
         prevRound = Rounds[roundId - 2];
 
+        int numToAdvance = 1;
 
         for(int matchId = 1; matchId <= numMatchesInRound; matchId++) {
 
@@ -84,8 +85,8 @@ public class DoubleElimination : Tournament {
             prevMatch2 = prevRound.Matches[(matchId * 2) - 1]; 
 
                 // Single Elimination means there is only one progression, winner(s) advance
-            prevMatch1.AddProgression(new Progression( prevMatch1, nextMatch, 2 ));
-            prevMatch2.AddProgression(new Progression( prevMatch2, nextMatch, 2 ));
+            prevMatch1.AddProgression(new Progression( prevMatch1, nextMatch, numToAdvance ));
+            prevMatch2.AddProgression(new Progression( prevMatch2, nextMatch, numToAdvance ));
 
             round.AddMatch(nextMatch);
 

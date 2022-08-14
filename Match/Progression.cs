@@ -31,7 +31,7 @@ public class Progression {
     // <summary>
     // Number of opponents that progress to the next match
     // </summary>
-    int NumOpponents { get; }
+    int NumAdvancing { get; }
 
 
     // <summary>
@@ -45,7 +45,7 @@ public class Progression {
         PrevMatch = prevMatch;
         NextMatch = nextMatch;
 
-        NumOpponents = numOpponents;
+        NumAdvancing = numOpponents;
         Offset = offset;
         isCompleted = false;
     }
@@ -53,13 +53,13 @@ public class Progression {
 
 
     public void ProgressOpponents() {
-        if (isCompleted == true) {
+        if (isCompleted == true ) {
             return;
         }
 
             // Advance Opponents to the next Match
             // Advance 1 to many opponents
-        var opponents = PrevMatch.MatchResults.Skip(Offset).Take(NumOpponents);
+        var opponents = PrevMatch.MatchResults.Skip(Offset).Take(NumAdvancing);
 
         foreach(var opponent in opponents) {
             NextMatch.AddOpponent(opponent);
@@ -70,5 +70,5 @@ public class Progression {
     }
 
 
-    public override string ToString() => $"Next Match: {NextMatch.Id}";
+    public override string ToString() => $"Next Match: {NextMatch.Id}  Prev Match: {PrevMatch.Id}";
 }

@@ -60,7 +60,10 @@ public class IndividualMatch : Match {
         foreach(var opponent in Opponents) {
             sb.Append( $" {opponent} ");
         }
+        sb.Append( $" State: {State}");
+        /*foreach(var progression in Progressions) {
+            sb.Append( $" {progression}");
+        }*/
         return sb.ToString();
-        //return $"Individual Match: #{Id} - {Opponents[0]} vs {Opponents[1]} - {State.ToString()}";
     }
 }
