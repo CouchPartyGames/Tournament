@@ -15,7 +15,7 @@ public class Simulate {
 
                 match.SetResults(GetRandomResults(match));
                 //match.SetResults(match.Opponents);
-                Console.WriteLine($"{match}");
+                //Console.WriteLine($"{match}");
             }
         }
     }
@@ -25,11 +25,20 @@ public class Simulate {
         var rnd = new Random();
 
         List<Opponent> opps = match.Opponents.Where(x => x.IsBye == false).ToList();
+        /*foreach(var opp in opps) {
+            Console.WriteLine(opp);
+        }*/
         var randomized = opps.OrderBy(item => rnd.Next()).ToList();
         List<Opponent> byes = match.Opponents.Where(x => x.IsBye == true).ToList();
+        /*
+        foreach(var opp in byes) {
+            Console.WriteLine(opp);
+        }*/
 
+                
+        Console.WriteLine($"{match}");
 
-        if (byes != null) {
+        if (byes.Count > 0) {
             return randomized.Concat(byes).ToList();
         } else {
             return randomized;

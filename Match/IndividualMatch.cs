@@ -35,11 +35,27 @@ public class IndividualMatch : Match {
     }
 
 
+    public void SetWinner(Opponent winner) {
+        /*
+        if (Opponents.Contains(winner)) {
+            foreach(var opp in Opponents.ToList()) {
+                
+            }
+
+            SortedList finalResults = new SortedList<int, Opponent>() {
+                1, winner,
+                2, loser
+            };
+            SetResults(finalResults);
+        }*/
+    }
+
+
 
     public override string ToString() {
 
         var sb = new System.Text.StringBuilder();
-        sb.Append( $"Individual Match: #{Id} Opponents:");
+        sb.Append( $"Individual Match: #{Id} Opponents: ");
 
         foreach(var opponent in Opponents) {
             sb.Append( $" {opponent} ");

@@ -61,6 +61,7 @@ public abstract class Match : IMatch {
 
     // Results of the completed match ordered from highest score (winner) to lowest score (loser)
     public List<Opponent> MatchResults { get; set; }
+    //public SortedList<int, Opponent> MatchResults { get; set; }
 
 
     public int MinOpponents { get; set; }
