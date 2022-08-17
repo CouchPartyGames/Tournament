@@ -1,4 +1,3 @@
-
 namespace CouchParty.Tournament;
 
 public enum RoundId {

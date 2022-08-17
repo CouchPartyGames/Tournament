@@ -1,14 +1,7 @@
-
 namespace CouchParty.Tournament;
 
 
-public enum ProgressionType {
-    Win,
-    Lose
-}
-
-
-public class Progression {
+public class Progression : IProgression {
 
     // <summary>
     // the current match
@@ -37,9 +30,16 @@ public class Progression {
     // <summary>
     // Where to start advancing opponents in a match
     // </summary>
-    int Offset { get; }
+    public int Offset { get; }
 
 
+    public Progression() {
+        PrevMatch = new IndividualMatch(0,0);
+        NextMatch = new IndividualMatch(0,0);
+        NumAdvancing = 0;
+        Offset = 0;
+        isCompleted = false;
+    }
 
     public Progression(Match prevMatch, Match nextMatch, int numOpponents = 1, int offset = 0) {
         PrevMatch = prevMatch;
@@ -70,5 +70,5 @@ public class Progression {
     }
 
 
-    public override string ToString() => $"Next Match: {NextMatch.Id}  Prev Match: {PrevMatch.Id}";
+    public override string ToString() => $"Next Match: {NextMatch.Id}  ";
 }

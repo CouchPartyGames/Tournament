@@ -34,13 +34,17 @@ public interface IMatch {
 
     MatchState State { get; set; }
 
-    List<Progression> Progressions { get; set; }
-
-    void AddProgression(Progression progression);
-
 }
 
 
+public class NoMatch : Match {
+
+    public NoMatch(int id, RoundId round) : base(id, round) {
+    }
+
+    public void SetResults(List<Opponent> results) {
+    }
+}
 
 public abstract class Match : IMatch {
 
@@ -53,8 +57,8 @@ public abstract class Match : IMatch {
     // State of the Match
     public MatchState State { get; set; }
 
-    // On Completion, how to advance winners and losers
-    public List<Progression> Progressions { get; set; }
+	public IProgression WinProgression { get ; protected set; }
+	public IProgression LoseProgression { get ; protected set; }
 
     // List of Opponents in the match
     public List<Opponent> Opponents { get; protected set; }
@@ -75,9 +79,10 @@ public abstract class Match : IMatch {
         Id = id;
         Round = round;
 
-        Progressions = new List<Progression>();
         Opponents = new List<Opponent>();
         MatchResults = new List<Opponent>();
+        WinProgression = new NoProgression();
+        LoseProgression = new NoProgression();
     }
 
 
@@ -116,15 +121,21 @@ public abstract class Match : IMatch {
         MatchResults = results;
         State = MatchState.Completed;
 
-        foreach(var progress in Progressions) {
-            progress.ProgressOpponents();
+        if (WinProgression != null) {
+            WinProgression.ProgressOpponents();
         }
+        if (LoseProgression != null) {
+            LoseProgression.ProgressOpponents();
+        }
+        /*foreach(var progress in Progressions) {
+            progress.ProgressOpponents();
+        }*/
     }
 
-    // <summary>
-    // Add a match progression
-    // </summary>
-    public void AddProgression(Progression progression) {
-        Progressions.Add(progression);
+
+	public void SetProgressions(IProgression win, IProgression lose = null) {
+		WinProgression = win;
+        LoseProgression = lose;
     }
+
 }

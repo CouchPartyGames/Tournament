@@ -61,9 +61,8 @@ public class IndividualMatch : Match {
             sb.Append( $" {opponent} ");
         }
         sb.Append( $" State: {State}");
-        /*foreach(var progression in Progressions) {
-            sb.Append( $" {progression}");
-        }*/
+        sb.Append( $" {WinProgression}");
+
         return sb.ToString();
     }
 }

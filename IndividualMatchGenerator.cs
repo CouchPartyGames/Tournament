@@ -95,7 +95,8 @@ public class IndividualMatchGenerator : MatchGenerator {
             Opponent opponent1 = OpponentList.FirstOrDefault(x => x.Id == matchOpponents.Item1 - 1);
             Opponent opponent2 = OpponentList.FirstOrDefault(x => x.Id == matchOpponents.Item2 - 1);
             */
-            MatchList.Add(new IndividualMatch(id, round, opponent1, opponent2));
+            var match = new IndividualMatch(id, round, opponent1, opponent2);
+            MatchList.Add(match);
             id++;
         }
     }

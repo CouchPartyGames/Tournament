@@ -25,7 +25,6 @@ public class SingleElimination : Tournament {
         MatchGenerator gen = MatchGenerator.Factory(orderedOpponents, Mode);
         //MatchGenerator gen = MatchGenerator.Factory(orderedOpponents, BracketMode.Group);
 
-
             // Get the Total Num of Rounds in this tournament
         int numRounds = (int)Math.Log2((double) gen.DrawSize) ;
 
@@ -69,8 +68,8 @@ public class SingleElimination : Tournament {
                 prevMatch2 = prevRound.Matches[(matchId * 2) - 1]; 
 
                     // Single Elimination means there is only one progression, winner(s) advance
-                prevMatch1.AddProgression(new Progression( prevMatch1, nextMatch, numToAdvance ));
-                prevMatch2.AddProgression(new Progression( prevMatch2, nextMatch, numToAdvance ));
+                prevMatch1.SetProgressions(new Progression( prevMatch1, nextMatch, numToAdvance ));
+                prevMatch2.SetProgressions(new Progression( prevMatch2, nextMatch, numToAdvance ));
 
                 round.AddMatch(nextMatch);
 

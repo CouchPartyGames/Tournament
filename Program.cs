@@ -35,6 +35,7 @@ foreach(Opponent opp in opps) {
 }
 
 tournay.Generate();
+Console.WriteLine("hello");
 Console.WriteLine(tournay);
 
 
@@ -48,5 +49,6 @@ foreach(var round in tournay.Rounds) {
 }
 
 Console.WriteLine();
+Console.WriteLine("Simulation");
 Simulate sim = new Simulate(tournay);
 
