@@ -56,10 +56,14 @@ public class Progression : IProgression {
         if (isCompleted == true ) {
             return;
         }
-
             // Advance Opponents to the next Match
             // Advance 1 to many opponents
-        var opponents = PrevMatch.MatchResults.Skip(Offset).Take(NumAdvancing);
+        Console.WriteLine($"progress - {PrevMatch} {Offset} {NumAdvancing}");
+        var opponents = PrevMatch.MatchResults.Skip(Offset).Take(NumAdvancing).ToList();
+
+        if (opponents.Count == 0) {
+            Console.WriteLine("No Opponents to progress");
+        }
 
         foreach(var opponent in opponents) {
             NextMatch.AddOpponent(opponent);

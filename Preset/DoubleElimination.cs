@@ -4,7 +4,8 @@ namespace CouchParty.Tournament.Preset;
 
 public class DoubleElimination : Tournament {
 
-    public DoubleElimination(TournamentSettings settings) : base(settings) {
+    public DoubleElimination(int id, string name, List<Opponent> opps) : 
+		base(id, name, opps) {
     }
 
 
@@ -14,10 +15,6 @@ public class DoubleElimination : Tournament {
     public override void Generate() {
         int id = 100;
 
-        /*
-        if (Opponents.Count < 3) {
-            thrown new Exception();
-        }*/
 
             // order all opponents in the draw (doesn't include byes)
         IOpponentOrder orderedOpponents = OpponentOrder.Factory(Opponents, Order);
@@ -29,11 +26,7 @@ public class DoubleElimination : Tournament {
         int totalRounds = (int)Math.Log2((double) gen.DrawSize);
 
             // Add 1st Round
-        Round round = new Round() {
-            Id = 1,
-            Name = "Round 1",
-            RoundId = (RoundId)totalRounds
-        };
+        Round round = new(1, "Round 1");
 
 
             // Add Matches for the First Round
@@ -61,11 +54,9 @@ public class DoubleElimination : Tournament {
         Match prevMatch2 = null;
         Match nextMatch = null;
 
-        var round = new Round() { 
-            Id = roundId,
-            Name = $"Round {roundId}",
-            RoundId = (RoundId)(totalRounds - (roundId - 1))
-        };
+        var round = new Round(roundId, $"Round {roundId}");
+            //RoundId = (RoundId)(totalRounds - (roundId - 1))
+        //};
 
             // Find the number of matches in this round
         int numMatchesInRound = drawSize / (int)Math.Pow(2, roundId);
@@ -102,8 +93,8 @@ public class DoubleElimination : Tournament {
     // Generate Losing side of Bracket
     // </summary>
     public void GenerateLosingBracket(int totalRounds, int roundId, int drawSize, int id) {
-        int numToAdvance = 2;
-        int offset = 2;
+        int numToAdvance = 1;
+        int offset = 1;
 
         Round prevRound = null;
         Match prevMatch1 = null;
@@ -111,11 +102,17 @@ public class DoubleElimination : Tournament {
         Match nextMatch = null;
 
 
-        var round = new Round() { 
-            Id = roundId,
-            Name = $"Consolation Round {roundId}",
-            RoundId = (RoundId)(totalRounds - (roundId - 1))
-        };
+        if (Mode == BracketMode.Individual) {
+            numToAdvance = 1;
+            offset = 1;
+        } else {
+            offset = 2;
+            numToAdvance = 2;
+        }
+
+        var round = new Round(roundId, $"Consolation Round {roundId}");
+            //RoundId = (RoundId)(totalRounds - (roundId - 1))
+        //};
 
         prevRound = Rounds[roundId - 2];
         

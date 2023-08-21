@@ -15,9 +15,10 @@ public enum BracketMode {
 
 public class Tournament {
 
-    public string Name { get; set; }
 
-    public int Id { get; set; }
+    public int Id { get; private set; }
+
+    public string Name { get; private set; }
 
     public bool IsCompleted { get; set; } = false;
 
@@ -25,41 +26,38 @@ public class Tournament {
     public DateTime? StartDate { get; set; } = null;
 
         // All Opponents
-    public List<Opponent> Opponents { get; protected set; }
+    public List<Opponent> Opponents { get; private set; }
 
         // Rounds
     public List<Round> Rounds { get; set; }
-    //public Dictionary<int, Round> Rounds { get; set; }
-
-    public TournamentSettings Settings { get; private set; }
-
 
     public DrawOrderType Order { get; set; }
 
-
     public BracketMode Mode { get; set; }
 
+	public uint DrawSize { get; private set; }
+
+	public uint NumRounds { get; private set; }
 
 
-    public Tournament(TournamentSettings settings) {
-        Settings = settings;
+    protected Tournament(int id,
+		string name,
+		List<Opponent> opps) {
+
+		Id = id;
+		Name = name;
+		Opponents = opps;
+
+		if (Opponents.Count < 2) {
+			throw new InvalidOperationException("Bad number of participants for tournament");
+		}
+
+		DrawSize = BitOperations.RoundUpToPowerOf2((uint)Opponents.Count);
+		NumRounds = (uint)Math.Log2((double) DrawSize) ;
 
         Rounds = new List<Round>();
-        Opponents = new List<Opponent>();
         Order = DrawOrderType.SeededDraw;
         Mode = BracketMode.Individual;
-    }
-
-    public void SetOpponents(List<Opponent> opps) {
-        Opponents = opps;
-    }
-
-
-    public void AddOpponent(Opponent opp1) {
-        try {
-            Opponents.Add(opp1);
-        } catch(ArgumentException) {
-        }
     }
 
 

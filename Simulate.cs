@@ -19,7 +19,7 @@ public class Simulate {
                 }*/
                 match.SetResults(results);
                 //match.SetResults(match.Opponents);
-                //Console.WriteLine($"{match}");
+                Console.WriteLine($"{match}");
             }
         }
     }

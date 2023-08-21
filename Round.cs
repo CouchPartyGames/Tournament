@@ -24,6 +24,11 @@ public class Round {
 
     public RoundId RoundId { get; init; }
 
+	public Round(int id, string name) {
+		Id = id;
+		Name = name;
+	}
+
 
     public bool AddMatch(Match match) {
         try {

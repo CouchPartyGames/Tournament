@@ -9,5 +9,7 @@ public class NoProgression : IProgression {
 
     public override string ToString() => $"No Progression";
 
-    public void ProgressOpponents() {}
+    public void ProgressOpponents() {
+        Console.WriteLine("No progression");
+    }
 }

@@ -1,9 +1,21 @@
 
 namespace CouchParty.Tournament.Preset;
 
-public class SingleElimination : Tournament {
+public sealed class SingleElimination : Tournament {
 
-    public SingleElimination(TournamentSettings settings) : base(settings) {
+	/*
+	public static Create(Guid id,
+			String name,
+			List<Opponents> opponents,
+			EliminationType eliminationType,
+			Match Type,
+			OrderType drawOrderType
+		) {
+		
+	}*/
+
+    public SingleElimination(int id, string name, List<Opponent> opps) : 
+		base(id, name, opps) {
     }
 
 
@@ -29,11 +41,7 @@ public class SingleElimination : Tournament {
         int numRounds = (int)Math.Log2((double) gen.DrawSize) ;
 
             // Add 1st Round
-        Round round = new Round() {
-            Id = 1,
-            Name = "Round 1",
-            RoundId = (RoundId)numRounds 
-        };
+        Round round = new(1, "Round 1");
 
             // Add Matches for the First Round
         foreach(var match in gen.MatchList) {
@@ -46,11 +54,7 @@ public class SingleElimination : Tournament {
             // All Additional Rounds
         for(int roundId = 2; roundId <= numRounds; roundId++) {
 
-            round = new Round() { 
-                Id = roundId,
-                Name = $"Round {roundId}",
-                RoundId = (RoundId)(numRounds - (roundId - 1))
-            };
+            round = new Round(roundId, $"Round {roundId}");
 
                 // Find the number of matches in this round
             numMatchesInRound = (int)gen.DrawSize / (int)Math.Pow(2, roundId);
