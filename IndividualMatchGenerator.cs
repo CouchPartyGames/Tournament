@@ -69,8 +69,7 @@ public class IndividualMatchGenerator : MatchGenerator {
 
     
     // <summary>
-    // Add Matches to List 
-    //
+    // Add Opponents from Seeded Matches
     // </summary>
     void AddMatch(List<SeededMatch> matchList, RoundId round) {
         int id = 1;
