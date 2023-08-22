@@ -32,7 +32,7 @@ public abstract class OpponentOrder {
 // <summary>
 // Order opponents randomly in the Tournament draw
 // </summary>
-public class OpponentOrderRandom : IOpponentOrder {
+public sealed class OpponentOrderRandom : IOpponentOrder {
 
     // <summary>
     // Dictionary of ordered opponents
@@ -60,7 +60,7 @@ public class OpponentOrderRandom : IOpponentOrder {
 // <summary
 // Order Opponents in terms of rank in the Tournament draw
 // </summary>
-public class OpponentOrderRank : IOpponentOrder {
+public sealed class OpponentOrderRank : IOpponentOrder {
 
     public enum SortOrder {
         HighToLow,

@@ -3,16 +3,6 @@ namespace CouchParty.Tournament.Preset;
 
 public sealed class SingleElimination : Tournament {
 
-	/*
-	public static Create(Guid id,
-			String name,
-			List<Opponents> opponents,
-			EliminationType eliminationType,
-			Match Type,
-			OrderType drawOrderType
-		) {
-		
-	}*/
 
     public SingleElimination(int id, string name, List<Opponent> opps) : 
 		base(id, name, opps) {
@@ -34,11 +24,7 @@ public sealed class SingleElimination : Tournament {
         IOpponentOrder orderedOpponents = OpponentOrder.Factory(Opponents, Order);
 
             // Generate Matches for First Round (adds byes)
-        MatchGenerator gen = MatchGenerator.Factory(orderedOpponents, Mode);
-        //MatchGenerator gen = MatchGenerator.Factory(orderedOpponents, BracketMode.Group);
-
-            // Get the Total Num of Rounds in this tournament
-        int numRounds = (int)Math.Log2((double) gen.DrawSize) ;
+        MatchGenerator gen = MatchGenerator.Factory(orderedOpponents, Mode, DrawSize);
 
             // Add 1st Round
         Round round = new(1, "Round 1");
@@ -52,7 +38,7 @@ public sealed class SingleElimination : Tournament {
         numToAdvance = Mode == BracketMode.Individual ? 1 : 2;
 
             // All Additional Rounds
-        for(int roundId = 2; roundId <= numRounds; roundId++) {
+        for(int roundId = 2; roundId <= NumRounds; roundId++) {
 
             round = new Round(roundId, $"Round {roundId}");
 

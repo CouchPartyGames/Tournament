@@ -1,61 +1,54 @@
-
 namespace CouchParty.Tournament;
+
+using CouchParty.Tournament.Exceptions;
 
 
 public class IndividualMatchGenerator : MatchGenerator {
 
 
-    public IndividualMatchGenerator(IOpponentOrder order) : base(order.OpponentsInOrder) {
+    public IndividualMatchGenerator(IOpponentOrder order, uint drawSize) : base(order.OpponentsInOrder) {
 
         var numOpponents = OpponentList.Count;
-        DrawSize = DetermineDrawSize(numOpponents);
-        NumByes = (int)DrawSize - numOpponents;
+        NumByes = (int)drawSize - numOpponents;
 
             // Add Byes
         AddByeOpponents();
 
 
             // Setup Matches Per Round
-        switch(DrawSize) {
-            case DrawType.Finals:
-                DrawFinals();
+        switch(drawSize) {
+            case 2:
+                DrawOther(RoundId.Finals, drawSize);
                 break;
 
-            case DrawType.Semifinals:
-                DrawOther(RoundId.Semifinals);
+            case 4:
+                DrawOther(RoundId.Semifinals, drawSize);
                 break;
 
-            case DrawType.Quarterfinals:
-                DrawOther(RoundId.Quarterfinals);
+            case 8:
+                DrawOther(RoundId.Quarterfinals, drawSize);
                 break;
 
-            case DrawType.Draw16:
-                DrawOther(RoundId.Round16);
+            case 16:
+                DrawOther(RoundId.Round16, drawSize);
                 break;
 
-            case DrawType.Draw32:
-                DrawOther(RoundId.Round32);
+            case 32:
+                DrawOther(RoundId.Round32, drawSize);
                 break;
 
-            case DrawType.Draw64:
-                DrawOther(RoundId.Round64);
+            case 64:
+                DrawOther(RoundId.Round64, drawSize);
                 break;
 
-            case DrawType.Draw128:
-                DrawOther(RoundId.Round128);
+            case 128:
+                DrawOther(RoundId.Round128, drawSize);
                 break;
+
+			default:
+				throw new InvalidDrawSizeException();
+				break;
         }
-    }
-
-
-    void DrawFinals() {
-        var round = RoundId.Finals;
-
-        var matchList = new List<(int seedPos1, int seedPos2)> {
-            (1, 2)
-        };
-
-        AddMatch(matchList, round);
     }
 
 
@@ -66,8 +59,9 @@ public class IndividualMatchGenerator : MatchGenerator {
     // https://www.printyourbrackets.com/64seeded.html
     // https://www.printyourbrackets.com/pdfbrackets/128teamseeded.pdf
     // </summary>
-    void DrawOther(RoundId round) {
-        var matchList = GetOpponentSeeding(OpponentList.Count);
+    void DrawOther(RoundId round, uint drawSize) {
+		var seededMatches = new StartingMatches(drawSize);
+		var matchList = seededMatches.GetSeededMatches();
 
         AddMatch(matchList, round);
     }

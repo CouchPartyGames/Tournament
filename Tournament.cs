@@ -1,4 +1,3 @@
-
 namespace CouchParty.Tournament;
 
 
@@ -14,7 +13,6 @@ public enum BracketMode {
 
 
 public class Tournament {
-
 
     public int Id { get; private set; }
 

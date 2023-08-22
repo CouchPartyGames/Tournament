@@ -20,14 +20,13 @@ public class DoubleElimination : Tournament {
         IOpponentOrder orderedOpponents = OpponentOrder.Factory(Opponents, Order);
 
             // Generate Matches for First Round (adds byes)
-        MatchGenerator gen = MatchGenerator.Factory(orderedOpponents, Mode);
+        MatchGenerator gen = MatchGenerator.Factory(orderedOpponents, Mode, DrawSize);
 
             // Get the Total Num of Rounds in Tournament
-        int totalRounds = (int)Math.Log2((double) gen.DrawSize);
+        int totalRounds = (int)NumRounds;
 
             // Add 1st Round
         Round round = new(1, "Round 1");
-
 
             // Add Matches for the First Round
         foreach(var match in gen.MatchList) {

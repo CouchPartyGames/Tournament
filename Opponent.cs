@@ -13,7 +13,7 @@ public interface IOpponent {
 }
 
 
-public class ByeOpponent : Opponent {
+public sealed class ByeOpponent : Opponent {
 
     public const int ByeRank = Int32.MaxValue;
 
@@ -29,6 +29,7 @@ public class Opponent : IOpponent {
     public const int ByeRank = Int32.MaxValue;
 
     public const int NotRank = 888_888;
+
 
     public int Id { get; set; }
 

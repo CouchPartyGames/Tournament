@@ -1,6 +1,8 @@
 
 namespace CouchParty.Tournament;
 
+using CouchParty.Tournament.Exceptions;
+
 
 public enum DrawType {
     Finals = 2,
@@ -37,15 +39,15 @@ public class MatchGenerator {
 
 
 
-    public static MatchGenerator Factory(IOpponentOrder orderedOpponents, BracketMode type) {
+    public static MatchGenerator Factory(IOpponentOrder orderedOpponents, BracketMode type, uint drawSize) {
         MatchGenerator generator = null;
         switch(type) {
             case BracketMode.Individual:
-                generator = new IndividualMatchGenerator(orderedOpponents);
+                generator = new IndividualMatchGenerator(orderedOpponents, drawSize);
                 break;
 
             case BracketMode.Group:
-                generator = new GroupMatchGenerator(orderedOpponents);
+                generator = new GroupMatchGenerator(orderedOpponents, drawSize);
                 break;
         }
 
@@ -81,82 +83,68 @@ public class MatchGenerator {
     }
 
 
-    // <summary>
-    // Get Player Seeding/Position in the Tournament depending on player/draw size
-    // </summary>
-    protected List<(int,int)> GetOpponentSeeding(int numOpponents) {
+	protected List<(int,int)> GetDrawSize2() {
+    	return new List<(int seedPos1, int seedPos2)> {
+    		(1, 2)
+    	};
+	}
 
-        List<(int,int)> matchList = new List<(int seedPos1, int seedPos2)>();
+	protected List<(int,int)> GetDrawSize4() {
+    	return new List<(int seedPos1, int seedPos2)> {
+        	(1, 4),
+        	(3, 2)
+    	};
+	}
 
-            // Setup Matches Per Round
-        switch(numOpponents) {
-            case 2:
+	protected List<(int,int)> GetDrawSize8() {
+    	return new List<(int seedPos1, int seedPos2)> {
+			(1, 8),
+			(6, 3),
+			(4, 5),
+			(7, 2),
+		};
+	}
 
-                matchList = new List<(int seedPos1, int seedPos2)> {
-                    (1, 2)
-                };
-                break;
+	protected List<(int,int)> GetDrawSize16() {
+    	return new List<(int seedPos1, int seedPos2)> {
+			(1, 16),
+			(9, 8),
+			(4, 13),
+			(5, 12),
+			(3, 14),
+			(11,6),
+			(7,10),
+			(2,15)
+		};
+	}
 
-            case 4:
-                matchList = new List<(int seedPos1, int seedPos2)> {
-                    (1, 4),
-                    (3, 2)
-                };
-                break;
+	protected List<(int,int)> GetDrawSize32() {
+   		return new List<(int seedPos1, int seedPos2)> {
+			// 1st Half
+			(1, 32),
+			(16, 17),
+			(9, 24),
+			(8, 25),
+			// section
+			(4, 29),
+			(13, 20),
+			(12, 21),
+			(5, 28),
+			// 2nd Half
+			(2,31),
+			(15,18),
+			(10,23),
+			(7,26),
+			// section
+			(3,30),
+			(14,19),
+			(11,22),
+			(6,27)
+		};
+	}
 
-            case 8:
-                matchList = new List<(int seedPos1, int seedPos2)> {
-                    (1, 8),
-                    (6, 3),
-                    (4, 5),
-                    (7, 2),
-                };
-
-                break;
-
-            case 16:
-                matchList = new List<(int seedPos1, int seedPos2)> {
-                    (1, 16),
-                    (9, 8),
-                    (4, 13),
-                    (5, 12),
-                    (3, 14),
-                    (11,6),
-                    (7,10),
-                    (2,15)
-                };
-                break;
-
-            case 32:
-
-                matchList = new List<(int seedPos1, int seedPos2)> {
-                    // 1st Half
-                    (1, 32),
-                    (16, 17),
-                    (9, 24),
-                    (8, 25),
-                    // section
-                    (4, 29),
-                    (13, 20),
-                    (12, 21),
-                    (5, 28),
-                    // 2nd Half
-                    (2,31),
-                    (15,18),
-                    (10,23),
-                    (7,26),
-                    // section
-                    (3,30),
-                    (14,19),
-                    (11,22),
-                    (6,27)
-                };
-
-                break;
-
-            case 64:
-
-                matchList = new List<(int seedPos1, int seedPos2)> {
+	protected List<(int,int)> GetDrawSize64() {
+		return new List<(int seedPos1, int seedPos2)> {
                     // 1st Bracket
                     (1,64),
                     (32,33),
@@ -194,11 +182,10 @@ public class MatchGenerator {
                     (27,38),
                     (6,59)
                 };
+	}
 
-                break;
-
-            case 128:
-                matchList = new List<(int seedPos1, int seedPos2)> {
+	private List<(int,int)> GetDrawSize128() {
+    	return new List<(int seedPos1, int seedPos2)> {
                     // 1st Bracket
                     (1,128),
                     (64,65),
@@ -269,8 +256,48 @@ public class MatchGenerator {
                     (43,86)
 
                 };
+	}
 
+    // <summary>
+    // Get Player Seeding/Position in the Tournament depending on player/draw size
+    // </summary>
+    protected List<(int,int)> GetOpponentSeeding(int numOpponents) {
+
+        List<(int,int)> matchList = new List<(int seedPos1, int seedPos2)>();
+
+            // Setup Matches Per Round
+        switch(numOpponents) {
+            case 2:
+				matchList = GetDrawSize2();
                 break;
+
+            case 4:
+				matchList = GetDrawSize4();
+                break;
+
+            case 8:
+				matchList = GetDrawSize8();
+                break;
+
+            case 16:
+				matchList = GetDrawSize16();
+                break;
+
+            case 32:
+				matchList = GetDrawSize32();
+                break;
+
+            case 64:
+				matchList = GetDrawSize64();
+                break;
+
+            case 128:
+				matchList = GetDrawSize128();
+                break;
+
+			default:
+				throw new InvalidDrawSizeException();
+				break;
             }
 
         return matchList;

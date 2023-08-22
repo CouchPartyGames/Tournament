@@ -1,5 +1,7 @@
 namespace CouchParty.Tournament;
 
+using CouchParty.Tournament.Exceptions;
+
 public class GroupMatchGenerator : MatchGenerator {
 
     public enum GroupDrawType {
@@ -15,7 +17,7 @@ public class GroupMatchGenerator : MatchGenerator {
     public int OpponentsPerGroup { get; private set; }
 
 
-    public GroupMatchGenerator(IOpponentOrder oppOrder) : base(oppOrder.OpponentsInOrder) {
+    public GroupMatchGenerator(IOpponentOrder oppOrder, uint drawSize) : base(oppOrder.OpponentsInOrder) {
 
         OpponentsPerGroup = 4;
      
@@ -24,28 +26,31 @@ public class GroupMatchGenerator : MatchGenerator {
         var maxInGroup = 4;
         var numGroups = (numOpponents / maxInGroup) + (numOpponents % maxInGroup == 0 ? 0 : 1);
        
-        var drawSize = DetermineDrawSize(numGroups);
         NumByes = ((int)drawSize * maxInGroup) - numOpponents;
 
 
         AddByeOpponents();
 
         switch(drawSize) {
-            case GroupDrawType.Finals:
+            case 2:
                 DrawFinals();
                 break;
 
-            case GroupDrawType.Semifinals:
+            case 4:
                 DrawOther(RoundId.Semifinals);
                 break;
 
-            case GroupDrawType.Quarterfinals:
+            case 8:
                 DrawOther(RoundId.Quarterfinals);
                 break;
 
-            case GroupDrawType.Draw16:
+            case 16:
                 DrawOther(RoundId.Round16);
                 break;
+
+			default:
+				throw new InvalidDrawSizeException();
+				break;
         }
     }
 

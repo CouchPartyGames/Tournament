@@ -53,4 +53,3 @@ foreach(var round in tourny.Rounds) {
 Console.WriteLine();
 Console.WriteLine("Simulation");
 Simulate sim = new Simulate(tourny);
-
