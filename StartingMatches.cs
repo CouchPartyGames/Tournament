@@ -16,7 +16,7 @@ public sealed class StartingMatches {
 	}
 
 
-    public List<SeededMatch> SetSeededMatches() {
+    private List<SeededMatch> SetSeededMatches() {
         List<SeededMatch> matchList = new List<SeededMatch>();
 
             // Setup Matches Per Round

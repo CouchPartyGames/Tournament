@@ -37,7 +37,6 @@ tourny.Mode = isGroup ? BracketMode.Group : BracketMode.Individual;
 tourny.Order = isSeeded ? DrawOrderType.SeededDraw : DrawOrderType.BlindDraw;
 tourny.Generate();
 
-Console.WriteLine("hello");
 Console.WriteLine(tourny);
 
 
