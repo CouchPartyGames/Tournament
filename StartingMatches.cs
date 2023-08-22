@@ -1,25 +1,23 @@
 namespace CouchParty.Tournament;
 
 using CouchParty.Tournament.Exceptions;
-
-
-public sealed record SeededMatch(int opponent1Seed, int opponent2seed);
+using CouchParty.Tournament.ObjectValues;
 
 
 public sealed class StartingMatches {
 
 	public uint DrawSize { get; private set; }
 
-	//public List<(int,int)> matchList { get; private set; }
+	public List<SeededMatch> MatchList { get; private set; }
 
 	public StartingMatches(uint drawSize) {
 		DrawSize = drawSize;
-		//MatchList = SetSeededMatches();
+		MatchList = SetSeededMatches();
 	}
 
 
-    public List<(int,int)> GetSeededMatches() {
-        List<(int,int)> matchList = new List<(int seedPos1, int seedPos2)>();
+    public List<SeededMatch> SetSeededMatches() {
+        List<SeededMatch> matchList = new List<SeededMatch>();
 
             // Setup Matches Per Round
         switch(DrawSize) {
@@ -60,32 +58,20 @@ public sealed class StartingMatches {
     }
 
 
-	private List<(int,int)> GetDrawSize2() {
-		/*
+	private List<SeededMatch> GetDrawSize2() {
 		return new List<SeededMatch> {
 			new SeededMatch(1, 2)
-		};*/
-
-    	return new List<(int seedPos1, int seedPos2)> {
-    		(1, 2)
-    	};
+		};
 	}
 
-	private List<(int,int)> GetDrawSize4() {
-		/*
+	private List<SeededMatch> GetDrawSize4() {
 		return new List<SeededMatch> {
 			new SeededMatch(1, 4),
 			new SeededMatch(3, 2)
-		};*/
-
-    	return new List<(int seedPos1, int seedPos2)> {
-        	(1, 4),
-        	(3, 2)
-    	};
+		};
 	}
 
-	private List<(int,int)> GetDrawSize8() {
-		/*
+	private List<SeededMatch> GetDrawSize8() {
 		return new List<SeededMatch> {
 				// Top Half
 			new SeededMatch(1, 8),
@@ -93,45 +79,25 @@ public sealed class StartingMatches {
 				// Bottom Half
 			new SeededMatch(4, 5),
 			new SeededMatch(7, 2)
-		};*/
-
-    	return new List<(int seedPos1, int seedPos2)> {
-			(1, 8),
-			(6, 3),
-			(4, 5),
-			(7, 2),
 		};
 	}
 
-	private List<(int,int)> GetDrawSize16() {
-		/*
+	private List<SeededMatch> GetDrawSize16() {
 		return new List<SeededMatch> {
 				// Top Half
 			new SeededMatch(1, 16),
 			new SeededMatch(9, 8),
 			new SeededMatch(4, 13),
-			new SeededMatch(5, 12)
+			new SeededMatch(5, 12),
 				// Bottom Half
 			new SeededMatch(3, 14),
-			new SeededMatch(11,6),
-			new SeededMatch(7,10),
-			new SeededMatch(2,15)
-		};*/
-
-    	return new List<(int seedPos1, int seedPos2)> {
-			(1, 16),
-			(9, 8),
-			(4, 13),
-			(5, 12),
-			(3, 14),
-			(11,6),
-			(7,10),
-			(2,15)
+			new SeededMatch(11, 6),
+			new SeededMatch(7, 10),
+			new SeededMatch(2, 15)
 		};
 	}
 
-	private List<(int,int)> GetDrawSize32() {
-		/*
+	private List<SeededMatch> GetDrawSize32() {
 		return new List<SeededMatch> {
 				// 1st Half
 			new SeededMatch(1, 32),
@@ -153,143 +119,121 @@ public sealed class StartingMatches {
 			new SeededMatch(14,19),
 			new SeededMatch(11,22),
 			new SeededMatch(6,27)
-		};*/
-
-   		return new List<(int seedPos1, int seedPos2)> {
-			// 1st Half
-			(1, 32),
-			(16, 17),
-			(9, 24),
-			(8, 25),
-			// section
-			(4, 29),
-			(13, 20),
-			(12, 21),
-			(5, 28),
-			// 2nd Half
-			(2,31),
-			(15,18),
-			(10,23),
-			(7,26),
-			// section
-			(3,30),
-			(14,19),
-			(11,22),
-			(6,27)
 		};
 	}
 
-	private List<(int,int)> GetDrawSize64() {
-		return new List<(int seedPos1, int seedPos2)> {
-                    // 1st Bracket
-                    (1,64),
-                    (32,33),
-                    (17,48),
-                    (16,49),
-                    (9,56),
-                    (24,41),
-                    (25,40),
-                    (8,57),
-                    // 2nd Bracket
-                    (4,61),
-                    (29,36),
-                    (20,45),
-                    (13,52),
-                    (12,53),
-                    (21,44),
-                    (28,37),
-                    (5,60),
-                    // 3rd Bracket
-                    (2,63),
-                    (31,34),
-                    (18,47),
-                    (15,50),
-                    (10,55),
-                    (23,42),
-                    (26,39),
-                    (7,58),
-                    // 4th Bracket
-                    (3,62),
-                    (30,35),
-                    (19,46),
-                    (14,51),
-                    (11,54),
-                    (22,43),
-                    (27,38),
-                    (6,59)
-                };
-	}
-
-	private List<(int,int)> GetDrawSize128() {
-    	return new List<(int seedPos1, int seedPos2)> {
+	private List<SeededMatch> GetDrawSize64() {
+		return new List<SeededMatch> {
 				// 1st Bracket
-				(1,128),
-				(64,65),
-				(32,97),
-				(33,96),
-				(16,113),
-				(49,80),
-				(17,112),
-				(48,81),
-				(8,121),
-				(57,72),
-				(25,104),
-				(40,89),
-				(9,120),
-				(56,73),
-				(24,105),
-				(41,88),
+			new SeededMatch(1, 64),
+			new SeededMatch(32, 33),
+			new SeededMatch(17, 48),
+			new SeededMatch(16, 49),
+			new SeededMatch(9, 56),
+			new SeededMatch(24, 41),
+			new SeededMatch(25, 40),
+			new SeededMatch(8, 57),
 				// 2nd Bracket
-				(4,125),
-				(61,68),
-				(29,100),
-				(36,93),
-				(13,116),
-				(52,77),
-				(20,109),
-				(45,84),
-				(5,124),
-				(60,69),
-				(28,101),
-				(37,92),
-				(12,117),
-				(53,76),
-				(21,108),
-				(44,85),
+			new SeededMatch(4, 61),
+			new SeededMatch(29, 36),
+			new SeededMatch(20, 45),
+			new SeededMatch(13, 52),
+			new SeededMatch(12, 53),
+			new SeededMatch(21, 44),
+			new SeededMatch(28, 37),
+			new SeededMatch(5, 60),
 				// 3rd Bracket
-				(2,127),
-				(63,66),
-				(31,98),
-				(34,95),
-				(15,114),
-				(50,79),
-				(18,111),
-				(47,82),
-				(7,122),
-				(58,71),
-				(26,103),
-				(39,90),
-				(10,119),
-				(55,74),
-				(23,106),
-				(42,87),
+			new SeededMatch(2, 63),
+			new SeededMatch(31, 34),
+			new SeededMatch(18, 47),
+			new SeededMatch(15, 50),
+			new SeededMatch(10, 55),
+			new SeededMatch(23, 42),
+			new SeededMatch(26, 39),
+			new SeededMatch(7, 58),
 				// 4th Bracket
-				(3,126),
-				(62,67),
-				(30,99),
-				(35,94),
-				(14,115),
-				(51,78),
-				(19,110),
-				(46,83),
-				(6,123),
-				(59,70),
-				(27,102),
-				(38,91),
-				(11,118),
-				(54,75),
-				(22,107),
-				(43,86)
+			new SeededMatch(3, 62),
+			new SeededMatch(30, 35),
+			new SeededMatch(19, 46),
+			new SeededMatch(14, 51),
+			new SeededMatch(11, 54),
+			new SeededMatch(22, 43),
+			new SeededMatch(27, 38),
+			new SeededMatch(6, 59)
 		};
+	}
+
+	private List<SeededMatch> GetDrawSize128() {
+		return new List<SeededMatch> {
+				// 1st Bracket
+			new SeededMatch(1, 128),
+			new SeededMatch(64, 65),
+			new SeededMatch(32, 97),
+			new SeededMatch(33, 96),
+			new SeededMatch(16, 113),
+			new SeededMatch(49, 80),
+			new SeededMatch(17, 112),
+			new SeededMatch(48, 81),
+			new SeededMatch(8, 121),
+			new SeededMatch(57, 72),
+			new SeededMatch(25, 104),
+			new SeededMatch(40, 89),
+			new SeededMatch(9, 120),
+			new SeededMatch(56, 73),
+			new SeededMatch(24, 105),
+			new SeededMatch(41, 88),
+				// 2nd Bracket
+			new SeededMatch(4, 125),
+			new SeededMatch(61, 68),
+			new SeededMatch(29, 100),
+			new SeededMatch(36, 93),
+			new SeededMatch(13, 116),
+			new SeededMatch(52, 77),
+			new SeededMatch(20, 109),
+			new SeededMatch(45, 84),
+			new SeededMatch(5, 124),
+			new SeededMatch(60, 69),
+			new SeededMatch(28, 101),
+			new SeededMatch(37, 92),
+			new SeededMatch(12, 117),
+			new SeededMatch(53, 76),
+			new SeededMatch(21, 108),
+			new SeededMatch(44, 85),
+				// 3rd Bracket
+			new SeededMatch(2, 127),
+			new SeededMatch(63, 66),
+			new SeededMatch(31, 98),
+			new SeededMatch(34, 95),
+			new SeededMatch(15, 114),
+			new SeededMatch(50, 79),
+			new SeededMatch(18, 111),
+			new SeededMatch(47, 82),
+			new SeededMatch(7, 122),
+			new SeededMatch(58, 71),
+			new SeededMatch(26, 103),
+			new SeededMatch(39, 90),
+			new SeededMatch(10, 119),
+			new SeededMatch(55, 74),
+			new SeededMatch(23, 106),
+			new SeededMatch(42, 87),
+				// 4th Bracket
+			new SeededMatch(3, 126),
+			new SeededMatch(62, 67),
+			new SeededMatch(30, 99),
+			new SeededMatch(35, 94),
+			new SeededMatch(14, 115),
+			new SeededMatch(51, 78),
+			new SeededMatch(19, 110),
+			new SeededMatch(46, 83),
+			new SeededMatch(6, 123),
+			new SeededMatch(59, 70),
+			new SeededMatch(27, 102),
+			new SeededMatch(38, 91),
+			new SeededMatch(11, 118),
+			new SeededMatch(54, 75),
+			new SeededMatch(22, 107),
+			new SeededMatch(43, 86)
+		};
+
 	}
 }

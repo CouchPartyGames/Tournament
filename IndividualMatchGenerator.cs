@@ -1,6 +1,7 @@
 namespace CouchParty.Tournament;
 
 using CouchParty.Tournament.Exceptions;
+using CouchParty.Tournament.ObjectValues;
 
 
 public class IndividualMatchGenerator : MatchGenerator {
@@ -61,9 +62,8 @@ public class IndividualMatchGenerator : MatchGenerator {
     // </summary>
     void DrawOther(RoundId round, uint drawSize) {
 		var seededMatches = new StartingMatches(drawSize);
-		var matchList = seededMatches.GetSeededMatches();
 
-        AddMatch(matchList, round);
+        AddMatch(seededMatches.MatchList, round);
     }
 
 
@@ -72,23 +72,22 @@ public class IndividualMatchGenerator : MatchGenerator {
     // Add Matches to List 
     //
     // </summary>
-    void AddMatch(List<(int,int)> matchList, RoundId round) {
+    void AddMatch(List<SeededMatch> matchList, RoundId round) {
         int id = 1;
+		int seedIndex = 0;
 
-        foreach( var matchOpponents in matchList) {
+        foreach( var seededMatch in matchList) {
 
-            if (!OpponentList.TryGetValue(matchOpponents.Item1 - 1, out Opponent opponent1)) {
-                throw new ArgumentOutOfRangeException("Bad Index in OpponentList", nameof(opponent1));
+			seedIndex = seededMatch.opponent1Seed - 1;
+            if (!OpponentList.TryGetValue(seedIndex, out Opponent opponent1)) {
+                throw new MissingOpponentFromListException();
             }
 
-            if (!OpponentList.TryGetValue(matchOpponents.Item2 - 1, out Opponent opponent2)) {
-                throw new ArgumentOutOfRangeException("Bad Index in OpponentList", nameof(opponent2));
+			seedIndex = seededMatch.opponent2Seed - 1;
+            if (!OpponentList.TryGetValue(seedIndex, out Opponent opponent2)) {
+                throw new MissingOpponentFromListException();
             }
 
-            /*
-            Opponent opponent1 = OpponentList.FirstOrDefault(x => x.Id == matchOpponents.Item1 - 1);
-            Opponent opponent2 = OpponentList.FirstOrDefault(x => x.Id == matchOpponents.Item2 - 1);
-            */
             var match = new IndividualMatch(id, round, opponent1, opponent2);
             MatchList.Add(match);
             id++;
