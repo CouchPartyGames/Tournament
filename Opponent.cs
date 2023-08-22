@@ -5,39 +5,29 @@ namespace CouchParty.Tournament;
 public interface IOpponent {
 
     // Opponent id
-    int Id { get; set; }
+    int Id { get; }
 
-    string Name { get; set; }
+    string Name { get; }
 
-    int Rank { get; set; }
+    int Rank { get; }
 }
 
 
-public sealed class ByeOpponent : Opponent {
 
-    public const int ByeRank = Int32.MaxValue;
-
-    public ByeOpponent(int id, string name) : base(id, name, ByeRank) {
-        IsBye = true;
-        Rank = ByeRank;
-    }
-
-}
-
-public class Opponent : IOpponent {
+public sealed class Opponent : IOpponent {
 
     public const int ByeRank = Int32.MaxValue;
 
     public const int NotRank = 888_888;
 
 
-    public int Id { get; set; }
+    public int Id { get; private set; }
 
-    public string Name { get; set; }
+    public string Name { get; private set; }
 
-    public int Rank { get; set; }
+    public int Rank { get; private set; }
 
-    public bool IsBye { get; protected set; }
+    public bool IsBye { get; private set; }
 
 
     public Opponent(int id, string name, int rank = NotRank)
@@ -57,6 +47,11 @@ public class Opponent : IOpponent {
         IsBye = isBye;
         Rank = isBye ? ByeRank : NotRank;
     }
+
+
+	public static Opponent CreateBye(int id, string name) {
+		return new Opponent(id, name, true);	
+	}
 
 
     public override string ToString() => $"{Name} ({Id})";

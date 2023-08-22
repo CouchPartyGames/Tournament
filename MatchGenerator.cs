@@ -64,7 +64,7 @@ public class MatchGenerator {
             // Determine if Byes are needed
         if (NumByes > 0) {
             for(int j = 0; j < NumByes; j++) {
-                OpponentList.Add(id, new Opponent(0, "Bye", true));
+                OpponentList.Add(id, Opponent.CreateBye(0, "Bye"));
                 id ++;
             }
         }

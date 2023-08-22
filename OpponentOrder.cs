@@ -3,7 +3,7 @@ namespace CouchParty.Tournament;
 
 
 public interface IOpponentOrder {
-    Dictionary<int, Opponent> OpponentsInOrder { get; set; }
+    Dictionary<int, Opponent> OpponentsInOrder { get; }
 }
 
 
@@ -37,7 +37,7 @@ public sealed class OpponentOrderRandom : IOpponentOrder {
     // <summary>
     // Dictionary of ordered opponents
     // </summary>
-    public Dictionary<int, Opponent> OpponentsInOrder { get; set; }
+    public Dictionary<int, Opponent> OpponentsInOrder { get; private set; }
 
 
 
@@ -70,7 +70,7 @@ public sealed class OpponentOrderRank : IOpponentOrder {
     // <summary>
     // Dictionary of ordered opponents
     // </summary>
-    public Dictionary<int, Opponent> OpponentsInOrder { get; set; }
+    public Dictionary<int, Opponent> OpponentsInOrder { get; private set; }
 
 
     // <summary>
