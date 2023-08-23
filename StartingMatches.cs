@@ -1,7 +1,7 @@
 namespace CouchParty.Tournament;
 
 using CouchParty.Tournament.Exceptions;
-using CouchParty.Tournament.ObjectValues;
+using CouchParty.Tournament.ValueObjects;
 
 
 public interface ISeededMatches {

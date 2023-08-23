@@ -1,4 +1,4 @@
-namespace CouchParty.Tournament.ObjectValues;
+namespace CouchParty.Tournament.ValueObjects;
 
 // <summary>
 // rank/seed of opponents in a match
