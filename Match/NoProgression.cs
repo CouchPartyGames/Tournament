@@ -1,6 +1,6 @@
 namespace CouchParty.Tournament;
 
-public class NoProgression : IProgression {
+public sealed class NoProgression : IProgression {
     public NoProgression() {
         Offset = 0;
     }

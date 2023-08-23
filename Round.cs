@@ -1,13 +1,13 @@
 namespace CouchParty.Tournament;
 
 public enum RoundId {
-    Finals = 1,
+    Finals = 0,
     Semifinals,
     Quarterfinals,
-    Round16,
-    Round32,
-    Round64,
-    Round128
+    RoundOf16,
+    RoundOf32,
+    RoundOf64,
+    RoundOf128
 }
 
 
@@ -42,14 +42,15 @@ public class Round {
     }
 
 
-    /*
-    public static string RoundToString(RoundId rId) => rId switch {
-        RoundId.Round128    => "Round of 128",
-        Direction.Right => Orientation.East,
-        Direction.Down  => Orientation.South,
-        Direction.Left  => Orientation.West,
-        _ => throw new ArgumentOutOfRangeException(nameof(direction), $"Not expected direction value: {direction}"),
-    };*/
+    public static string RoundToString(RoundId roundId) => roundId switch {
+		RoundId.Finals => "Finals",
+		RoundId.Semifinals => "Semifinals",
+		RoundId.Quarterfinals => "Quarterfinals",
+		RoundId.RoundOf16 => "Round of 16",
+		RoundId.RoundOf32 => "Round of 32",
+		RoundId.RoundOf64 => "Round of 64",
+        RoundId.RoundOf128    => "Round of 128"
+    };
 
     public override string ToString() => $"Round: {Id} - {RoundId.ToString()} - # of Matches: {Matches.Count} - {Name}";
 }

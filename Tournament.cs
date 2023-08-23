@@ -67,31 +67,6 @@ public class Tournament {
 }
 
 
-public class TournamentSettings {
-
-    public enum EliminationMode {
-        Single = 1,
-        Double,
-        Triple
-    }
-
-
-    public bool IsSeeded { get; set; }
-
-    public int TotalSeeds { get; set; }
-
-    public EliminationMode Elimination { get; set; }
-
-    public BracketMode Mode { get; set; } = BracketMode.Individual;
-
-    public int MaxOpponents { get; set; }
-
-    public TournamentSettings() {
-        Elimination = EliminationMode.Single;
-    }
-}
-
-
 
 public class GroupSettings {
     public int minOpponents;

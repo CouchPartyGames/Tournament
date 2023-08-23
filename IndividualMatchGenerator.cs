@@ -6,7 +6,7 @@ using CouchParty.Tournament.ObjectValues;
 
 public class IndividualMatchGenerator : MatchGenerator {
 
-
+	// ISeededMatches list
     public IndividualMatchGenerator(IOpponentOrder order, uint drawSize) : base(order.OpponentsInOrder) {
 
         var numOpponents = OpponentList.Count;
@@ -31,19 +31,19 @@ public class IndividualMatchGenerator : MatchGenerator {
                 break;
 
             case 16:
-                DrawOther(RoundId.Round16, drawSize);
+                DrawOther(RoundId.RoundOf16, drawSize);
                 break;
 
             case 32:
-                DrawOther(RoundId.Round32, drawSize);
+                DrawOther(RoundId.RoundOf32, drawSize);
                 break;
 
             case 64:
-                DrawOther(RoundId.Round64, drawSize);
+                DrawOther(RoundId.RoundOf64, drawSize);
                 break;
 
             case 128:
-                DrawOther(RoundId.Round128, drawSize);
+                DrawOther(RoundId.RoundOf128, drawSize);
                 break;
 
 			default:

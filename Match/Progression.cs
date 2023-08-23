@@ -41,6 +41,14 @@ public class Progression : IProgression {
         isCompleted = false;
     }
 
+    public Progression(Match nextMatch, int numOpponents, int offset = 0) {
+        NextMatch = nextMatch;
+
+        NumAdvancing = numOpponents;
+        Offset = offset;
+        isCompleted = false;
+    }
+
     public Progression(Match prevMatch, Match nextMatch, int numOpponents = 1, int offset = 0) {
         PrevMatch = prevMatch;
         NextMatch = nextMatch;

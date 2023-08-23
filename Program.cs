@@ -24,12 +24,7 @@ bool isGroup = false;
 bool isSeeded = true;
 string name = "CouchParty Tournament";
 
-
-TournamentSettings settings = new TournamentSettings();
-/*if (isDoubleElimination) {
-	Tournament tourny = new DoubleElimination(name, settings);
-} else {
-}*/
+//Tournament tourny = new DoubleElimination(1, name, opps);
 Tournament tourny = new SingleElimination(1, name, opps);
 
 

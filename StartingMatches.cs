@@ -4,7 +4,14 @@ using CouchParty.Tournament.Exceptions;
 using CouchParty.Tournament.ObjectValues;
 
 
-public sealed class StartingMatches {
+public interface ISeededMatches {
+
+	uint DrawSize { get; }
+
+	List<SeededMatch> MatchList { get; }
+}
+
+public sealed class StartingMatches : ISeededMatches {
 
 	public uint DrawSize { get; private set; }
 

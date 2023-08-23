@@ -37,7 +37,7 @@ public interface IMatch {
 }
 
 
-public class NoMatch : Match {
+public sealed class NoMatch : Match {
 
     public NoMatch(int id, RoundId round) : base(id, round) {
     }

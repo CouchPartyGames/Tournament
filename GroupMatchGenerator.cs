@@ -1,6 +1,7 @@
 namespace CouchParty.Tournament;
 
 using CouchParty.Tournament.Exceptions;
+using CouchParty.Tournament.ObjectValues;
 
 public class GroupMatchGenerator : MatchGenerator {
 
@@ -17,6 +18,7 @@ public class GroupMatchGenerator : MatchGenerator {
     public int OpponentsPerGroup { get; private set; }
 
 
+	//ISeededMatches list
     public GroupMatchGenerator(IOpponentOrder oppOrder, uint drawSize) : base(oppOrder.OpponentsInOrder) {
 
         OpponentsPerGroup = 4;
@@ -37,15 +39,15 @@ public class GroupMatchGenerator : MatchGenerator {
                 break;
 
             case 4:
-                DrawOther(RoundId.Semifinals);
+                DrawOther(RoundId.Semifinals, drawSize);
                 break;
 
             case 8:
-                DrawOther(RoundId.Quarterfinals);
+                DrawOther(RoundId.Quarterfinals, drawSize);
                 break;
 
             case 16:
-                DrawOther(RoundId.Round16);
+                DrawOther(RoundId.RoundOf16, drawSize);
                 break;
 
 			default:
@@ -66,28 +68,29 @@ public class GroupMatchGenerator : MatchGenerator {
             { 1, new List<int>(OpponentList.Keys.ToList()) }
         };
 
-        AddMatch(matchList, round);
+        //AddMatch(matchList, round);
     }
 
 
     // <summary>
     // Draw
     // </summary>
-    void DrawOther(RoundId round) {
-        var numOpponents = OpponentList.Count;
+    void DrawOther(RoundId round, uint drawSize) {
+		var seededMatches = new StartingMatches(drawSize);
 
             // Get Seeded Positions for each Opponent
-        var seedsList = FlattenSeeds(GetOpponentSeeding(numOpponents));
+        var seedsList = FlattenSeeds(seededMatches.MatchList);
+
         /*foreach(var seed in seedsList) {
             Console.WriteLine($"seed: {seed}");
         }*/
 
             // Split the seeds into # of Groups
-        List<List<int>> matchList = GroupSeedsIntoListOfMatches(seedsList, OpponentsPerGroup);
+        //List<List<int>> matchList = GroupSeedsIntoListOfMatches(seedsList, OpponentsPerGroup);
         
         //DebugMatchList(matchList);
 
-        AddMatch(matchList, round);
+        //AddMatch(matchList, round);
     }
 
 
@@ -155,11 +158,11 @@ public class GroupMatchGenerator : MatchGenerator {
     // <summary>
     // Create a flat list of all seeded positions
     // </summary>
-    List<int> FlattenSeeds(List<(int, int)> seedsList) {
+    List<int> FlattenSeeds(List<SeededMatch> seedsList) {
         var flattenList = new List<int>();
         foreach(var item in seedsList) {
-            flattenList.Add(item.Item1);
-            flattenList.Add(item.Item2);
+            flattenList.Add(item.opponent1Seed);
+            flattenList.Add(item.opponent2Seed);
         }
         return flattenList;
     }
@@ -169,16 +172,18 @@ public class GroupMatchGenerator : MatchGenerator {
     // </summary>
     // <param>A list of seeded positions for opponents</param>
     // <param></param>
-    List<List<int>> GroupSeedsIntoListOfMatches(List<int> seedsList, int opponentsPerGroup) {
+    List<List<int>> GroupSeedsIntoListOfMatches(List<SeededMatch> seedsList, int opponentsPerGroup) {
         if (opponentsPerGroup < 2) {
             //throw new Exception('');
         }
 
+		return new List<List<int>>();
+/*
         return seedsList
             .Select((x, i) => new { Index = i, Value = x })
             .GroupBy(x => x.Index / opponentsPerGroup)
             .Select(x => x.Select(v => v.Value).ToList())
-            .ToList();
+            .ToList();*/
     }
 
 

@@ -1,0 +1,2 @@
+namespace CouchParty.Tournament.Enums;
+

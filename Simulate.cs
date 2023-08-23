@@ -4,7 +4,6 @@ namespace CouchParty.Tournament;
 public class Simulate {
 
     public Simulate(Tournament tourny) {
-
         Opponent winner = null;
         Random rand = new Random();
 

@@ -18,7 +18,7 @@ public sealed class Opponent : IOpponent {
 
     public const int ByeRank = Int32.MaxValue;
 
-    public const int NotRank = 888_888;
+    public const int NotRank = Int32.MaxValue - 1;
 
 
     public int Id { get; private set; }
@@ -41,16 +41,19 @@ public sealed class Opponent : IOpponent {
         => (o1.Id) != (o2.Id);
 
 
-    public Opponent(int id, string name, bool isBye) {
+    public Opponent(int id, string name, bool isBye, int rank) {
         Id = id;
         Name = name;
         IsBye = isBye;
-        Rank = isBye ? ByeRank : NotRank;
+        Rank = rank;
     }
 
+	public static Opponent CreateUnranked(int id, string name) {
+		return new Opponent(id, name, false, NotRank);	
+	}
 
 	public static Opponent CreateBye(int id, string name) {
-		return new Opponent(id, name, true);	
+		return new Opponent(id, name, true, ByeRank);	
 	}
 
 
